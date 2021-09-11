@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  pizza:
+    image: ${DOCKER_REGISTRY-}pizza
+    build:
+      context: .
+      dockerfile: Dockerfile
+  pizza.services:
+    image: ${DOCKER_REGISTRY-}pizza.services
+    build:
+      context: ../
+      dockerfile: pizza.services/pizza.Services.Web/Dockerfile

@@ -1,0 +1,34 @@
+services:
+  pizza:
+    build:
+      context: D:\єэштхЁ\5 ъєЁё\─рээ√х т ╚╚╥\Pizza\back-end\pizza
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: pizza
+    ports:
+    - published: 8080
+      target: 80
+    - published: 8081
+      target: 443
+    volumes:
+    - C:\Users\computar\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\computar\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+  pizza.services:
+    build:
+      context: D:\єэштхЁ\5 ъєЁё\─рээ√х т ╚╚╥\Pizza\back-end
+      dockerfile: pizza.services/pizza.Services.Web/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: pizza.services
+    ports:
+    - published: 8082
+      target: 80
+    - published: 8083
+      target: 443
+    volumes:
+    - C:\Users\computar\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\computar\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+version: '3.4'
