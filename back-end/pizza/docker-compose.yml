@@ -8,8 +8,8 @@ services:
   pizza:
     image: ${DOCKER_REGISTRY-}pizza
     build:
-      context: ../pizza
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: pizza/Dockerfile
 
 #  front-end:
 #    image: ${DOCKER_REGISTRY-}pizza/front-end
