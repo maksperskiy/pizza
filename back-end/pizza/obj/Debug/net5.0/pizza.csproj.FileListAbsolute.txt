@@ -37,3 +37,6 @@ D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug
 D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
 D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\pizza.Data.dll
 D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\pizza.Data.pdb
+D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Features.dll
+D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
+D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\System.IO.Pipelines.dll

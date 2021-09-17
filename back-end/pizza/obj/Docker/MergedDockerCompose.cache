@@ -1,20 +1,4 @@
 services:
-  back-end:
-    build:
-      context: D:\єэштхЁ\5 ъєЁё\─рээ√х т ╚╚╥\Pizza\back-end\pizza
-      dockerfile: Dockerfile
-    environment:
-      ASPNETCORE_ENVIRONMENT: Production
-      ASPNETCORE_URLS: https://+:443;http://+:80
-      DOTNET_RUNNING_IN_CONTAINER: "true"
-    image: pizza/back-end
-    ports:
-    - published: 8120
-      target: 80
-    - published: 8121
-      target: 443
-    volumes:
-    - /c:/c/:rw
   pgadmin:
     entrypoint:
     - /bin/sh
@@ -32,8 +16,24 @@ services:
       target: 80
     restart: unless-stopped
     volumes:
-    - pgadmin:/var/lib/pgadmin:rw
     - D:\єэштхЁ\5 ъєЁё\─рээ√х т ╚╚╥\Pizza\back-end\pizza\docker_pgadmin_servers.json:/pgadmin4/servers.json:rw
+    - pgadmin:/var/lib/pgadmin:rw
+  pizza:
+    build:
+      context: D:\єэштхЁ\5 ъєЁё\─рээ√х т ╚╚╥\Pizza\back-end\pizza
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: pizza
+    ports:
+    - published: 8120
+      target: 80
+    - published: 8121
+      target: 443
+    volumes:
+    - C:\Users\computar\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\computar\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
   postgres:
     environment:
       PGDATA: /data/postgres

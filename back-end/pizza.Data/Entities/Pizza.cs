@@ -29,7 +29,7 @@ namespace pizza.Data.Entities
         [ForeignKey("SizeId")]
         public virtual Size Size { get; set; }
 
-        public string ImageURL { get; set; }
+        public byte[] Image { get; set; }
 
         public decimal Price { get; set; }
 

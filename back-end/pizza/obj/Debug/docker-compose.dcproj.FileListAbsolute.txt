@@ -23,3 +23,5 @@ D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug
 D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\pizza.Data.pdb
 D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\obj\Debug\docker-compose.dcproj.CopyComplete
 D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\obj\Debug\docker-compose.dcproj.AssemblyReference.cache
+D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\Microsoft.AspNetCore.Http.Features.dll
+D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\Microsoft.Extensions.Primitives.dll

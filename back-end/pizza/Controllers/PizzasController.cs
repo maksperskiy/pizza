@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using pizza.Data.Models;
 using pizza.Services;
 using System;
 using System.Collections.Generic;
@@ -19,64 +21,23 @@ namespace pizza.Controllers
             _service = service;
         }
 
-        [HttpPost("name")]
-        public async Task<IActionResult> AddName([FromBody] string name)
+        [HttpPost]
+        public async Task<IActionResult> Add([FromForm] CreatePizzaRequest request, IFormFile image)
         {
-            if (await _service.NameExists(name))
+            /*if (await _service.Exists(value: request.Value, name: request.Name))
             {
-                return Conflict("name does already exist");
-            }
+                return Conflict("Size does already exist");
+            }*/
 
-            var result = await _service.CreateName(name);
+            var result = await _service.Create(request, image);
 
             return Ok(result);
         }
 
-        [HttpGet("name")]
-        public async Task<IActionResult> GetNames()
-        {
-            var result = await _service.GetNames();
-
-            return Ok(result);
-        }
-
-        [HttpDelete("name")]
-        public async Task<IActionResult> RemoveName([FromBody] Guid Id)
-        {
-            if (!await _service.NameExists(Id))
-            {
-                return NotFound("name does not exist");
-            }
-
-            await _service.RemoveName(Id);
-
-            return Ok();
-        }
-
-        [HttpPost("type")]
-        public async Task<IActionResult> AddType([FromBody] string type)
-        {
-            if (await _service.TypeExists(type))
-            {
-                return Conflict("type does already exist");
-            }
-
-            var result = _service.CreateType(type);
-
-            return Ok(result);
-        }
-/*
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
-        }*/
+            return Ok();
+        }
     }
 }

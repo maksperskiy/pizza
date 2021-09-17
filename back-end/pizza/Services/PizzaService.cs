@@ -1,7 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using pizza.Data;
+using pizza.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,74 +14,54 @@ namespace pizza.Services
     public class PizzaService : IPizzaService
     {
         private readonly PizzaDbContext _context;
+        private readonly IWebHostEnvironment _appEnvironment;
 
-        public PizzaService(PizzaDbContext context)
+        public PizzaService(PizzaDbContext context, IWebHostEnvironment appEnvironment)
         {
             _context = context;
+            _appEnvironment = appEnvironment;
         }
 
-        public async Task<Data.Entities.Name> CreateName(string value)
+        public async Task<Data.Entities.Pizza> Create(CreatePizzaRequest request, IFormFile image)
         {
-            var name = new Data.Entities.Name { Value = value };
+            byte[] imageData = null;
+            // считываем переданный файл в массив байтов
+            using (var binaryReader = new BinaryReader(image.OpenReadStream()))
+            {
+                imageData = binaryReader.ReadBytes((int)image.Length);
+            }
 
-            await _context.Name.AddAsync(name);
+            var pizza = new Data.Entities.Pizza 
+            { 
+                Name = _context.Name.Single(x => x.NameId == request.NameId),
+                Type = _context.Type.Single(x => x.TypeId == request.TypeId),
+                Size = _context.Size.Single(x => x.SizeId == request.SizeId),
+                Image = imageData,
+                Price = request.Price,
+                Category = request.Category
+            };
+
+            await _context.Pizza.AddAsync(pizza);
             await _context.SaveChangesAsync();
 
-            return name;
+            return pizza;
         }
 
-        public async Task<IEnumerable<Data.Entities.Name>> GetNames()
+        public async Task<IEnumerable<Data.Entities.Pizza>> Get()
         {
-            return await _context.Name.ToListAsync();
+            return await _context.Pizza.ToListAsync();
         }
 
-        public async Task RemoveName(Guid Id)
+        public async Task Remove(Guid Id)
         {
-            var name = await _context.Name.FindAsync(Id);
-            _context.Name.Remove(name);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<bool> NameExists(string value)
-        {
-            return await _context.Name.AnyAsync(x => x.Value == value);
-        }
-
-        public async Task<bool> NameExists(Guid Id)
-        {
-            return await _context.Name.AnyAsync(x => x.NameId == Id);
-        }
-
-        public async Task<Data.Entities.Type> CreateType(string value)
-        {
-            var type = new Data.Entities.Type { Value = value };
-
-            await _context.Type.AddAsync(type);
-            await _context.SaveChangesAsync();
-
-            return type;
-        }
-
-        public async Task<IEnumerable<Data.Entities.Type>> GetTypes()
-        {
-            return await _context.Type.ToListAsync();
-        }
-
-        public async Task RemoveType(Guid Id)
-        {
-            var name = await _context.Type.FindAsync(Id);
-            _context.Type.Remove(name);
+            var pizza = await _context.Pizza.FindAsync(Id);
+            _context.Pizza.Remove(pizza);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> TypeExists(string value)
+        public async Task<bool> Exists(Guid? Id = null, CreatePizzaRequest request = null)
         {
-            return await _context.Type.AnyAsync(x => x.Value == value);
-        }
-
-        public async Task<bool> TypeExists(Guid Id)
-        {
-            return await _context.Type.AnyAsync(x => x.TypeId == Id);
+            return await _context.Pizza.AnyAsync(x => x.PizzaId == Id);
         }
     }
 }
