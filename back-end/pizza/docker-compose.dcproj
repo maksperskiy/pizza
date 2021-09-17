@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>5678182e-4d8d-4e00-965b-da4ceef192fe</ProjectGuid>
+    <ProjectGuid>a0ef1ab2-f4b5-4490-9e98-3d172920da47</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>pizza</DockerServiceName>
@@ -14,14 +14,5 @@
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="appsettings.Production.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="appsettings.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="appsettings.Development.json" />
   </ItemGroup>
 </Project>

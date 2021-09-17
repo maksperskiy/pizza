@@ -1,13 +1,53 @@
 version: '3.4'
 
+volumes:
+    postgres:
+    pgadmin:
+
 services:
   pizza:
     image: ${DOCKER_REGISTRY-}pizza
     build:
-      context: .
+      context: ../pizza
       dockerfile: Dockerfile
-  pizza.services:
-    image: ${DOCKER_REGISTRY-}pizza.services
-    build:
-      context: ../
-      dockerfile: pizza.services/pizza.Services.Web/Dockerfile
+
+#  front-end:
+#    image: ${DOCKER_REGISTRY-}pizza/front-end
+#    build:
+#      context: ./pizza
+#      dockerfile: Dockerfile
+#    ports:
+#       - 3000:3000
+#    depends_on:
+#      - back-end
+
+  postgres:
+    image: "postgres:12"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+      PGDATA: "/data/postgres"
+    volumes:
+       - postgres:/data/postgres
+       - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+    ports:
+      - "15432:5432"
+    restart: unless-stopped
+  
+  pgadmin:
+    image: "dpage/pgadmin4:4.24"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    volumes:
+       - pgadmin:/var/lib/pgadmin
+       - ./docker_pgadmin_servers.json:/pgadmin4/servers.json
+    ports:
+      - "15433:80"
+    entrypoint:
+      - "/bin/sh"
+      - "-c"
+      - "/bin/echo 'postgres:5432:*:postgres:password' > /tmp/pgpassfile && chmod 600 /tmp/pgpassfile && /entrypoint.sh"
+    restart: unless-stopped

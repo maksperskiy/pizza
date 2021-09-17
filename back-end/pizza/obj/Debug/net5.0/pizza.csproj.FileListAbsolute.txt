@@ -28,3 +28,12 @@ D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\obj\Debug
 D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\appsettings.Development.json
 D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\appsettings.json
 D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\appsettings.Production.json
+D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
+D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
+D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\Npgsql.dll
+D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
+D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\pizza.Data.dll
+D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\bin\Debug\net5.0\pizza.Data.pdb

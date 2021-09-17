@@ -7,10 +7,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["pizza.csproj", "."]
-RUN dotnet restore "pizza.csproj"
+COPY ["pizza/pizza.csproj", "pizza/"]
+COPY ["pizza.Data/pizza.Data.csproj", "pizza.Data/"]
+RUN dotnet restore "pizza/pizza.csproj"
 COPY . .
-WORKDIR "/src/"
+WORKDIR "/src/pizza"
 
 RUN dotnet dev-certs https -ep aspnetapp.pfx -p crypticpassword
 
@@ -22,5 +23,5 @@ RUN dotnet publish "pizza.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY --from=build /src/aspnetapp.pfx aspnetapp.pfx
+COPY --from=build /src/pizza/aspnetapp.pfx aspnetapp.pfx
 ENTRYPOINT ["dotnet", "pizza.dll"]

@@ -1,8 +1,23 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using pizza.Data.Entities;
+using System;
 
 namespace pizza.Data
 {
-    public class PizzaDbContext
+    public class PizzaDbContext : DbContext
     {
+        public PizzaDbContext(DbContextOptions options) : base(options)
+        {
+            Database.EnsureCreated();
+        }
+
+        public DbSet<Name> Name { get; set; }
+        public DbSet<Entities.Type> Type { get; set; }
+        public DbSet<Size> Size { get; set; }
+        public DbSet<Entities.Pizza> Pizza { get; set; }
+        public DbSet<OrderUnit> OrderUnit { get; set; }
+        public DbSet<Order> Order { get; set; }
+        public DbSet<Promo> Promo { get; set; }
+        public DbSet<Customer> Customer { get; set; }
     }
 }

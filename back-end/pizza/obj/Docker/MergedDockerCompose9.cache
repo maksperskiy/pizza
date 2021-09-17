@@ -1,0 +1,53 @@
+services:
+  pgadmin:
+    entrypoint:
+    - /bin/sh
+    - -c
+    - /bin/echo 'postgres:5432:*:postgres:password' > /tmp/pgpassfile && chmod 600
+      /tmp/pgpassfile && /entrypoint.sh
+    environment:
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_DEFAULT_EMAIL: admin
+      PGADMIN_DEFAULT_PASSWORD: admin
+    image: dpage/pgadmin4:4.24
+    ports:
+    - published: 15433
+      target: 80
+    restart: unless-stopped
+    volumes:
+    - D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\docker_pgadmin_servers.json:/pgadmin4/servers.json:rw
+    - pgadmin:/var/lib/pgadmin:rw
+  pizza:
+    build:
+      context: D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\pizza
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: pizza
+    ports:
+    - published: 8120
+      target: 80
+    - published: 8121
+      target: 443
+    volumes:
+    - C:\Users\computar\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\computar\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+  postgres:
+    environment:
+      PGDATA: /data/postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+    image: postgres:12
+    ports:
+    - published: 15432
+      target: 5432
+    restart: unless-stopped
+    volumes:
+    - postgres:/data/postgres:rw
+    - D:\универ\5 курс\Данные в ИИТ\Pizza\back-end\pizza\docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql:rw
+version: '3.4'
+volumes:
+  pgadmin: {}
+  postgres: {}
