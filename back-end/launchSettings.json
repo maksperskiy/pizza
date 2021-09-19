@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "composeLaunchServiceName": "pizza.web",
+      "serviceActions": {
+        "pgadmin": "StartWithoutDebugging",
+        "pizza.web": "StartDebugging",
+        "postgres": "StartWithoutDebugging"
+      },
+      "composeLaunchAction": "LaunchBrowser",
+      "commandVersion": "1.0",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/swagger"
+    }
+  }
+}

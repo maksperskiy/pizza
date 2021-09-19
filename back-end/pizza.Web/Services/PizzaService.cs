@@ -9,17 +9,15 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace pizza.Services
+namespace pizza.Web.Services
 {
     public class PizzaService : IPizzaService
     {
         private readonly PizzaDbContext _context;
-        private readonly IWebHostEnvironment _appEnvironment;
 
-        public PizzaService(PizzaDbContext context, IWebHostEnvironment appEnvironment)
+        public PizzaService(PizzaDbContext context)
         {
             _context = context;
-            _appEnvironment = appEnvironment;
         }
 
         public async Task<Data.Entities.Pizza> Create(CreatePizzaRequest request, IFormFile image)

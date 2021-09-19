@@ -2,20 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>7846be22-bfc6-49e6-a9f9-c12c6dbd5791</UserSecretsId>
+    <UserSecretsId>e7ce59bc-fa7d-4b93-9175-8d8ed9f9fb68</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>.</DockerfileContext>
-    <DockerComposeProjectPath>docker-compose.dcproj</DockerComposeProjectPath>
+    <DockerfileContext>..\pizza</DockerfileContext>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="docker-compose.override.yml" />
-    <None Remove="docker-compose.yml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
   </ItemGroup>
 
   <ItemGroup>

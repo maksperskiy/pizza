@@ -5,23 +5,14 @@ volumes:
     pgadmin:
 
 services:
-  pizza:
-    image: ${DOCKER_REGISTRY-}pizza
+  pizza.web:
+    image: ${DOCKER_REGISTRY-}pizzaweb
     build:
-      context: ../
-      dockerfile: pizza/Dockerfile
-
-#  front-end:
-#    image: ${DOCKER_REGISTRY-}pizza/front-end
-#    build:
-#      context: ./pizza
-#      dockerfile: Dockerfile
-#    ports:
-#       - 3000:3000
-#    depends_on:
-#      - back-end
-
+      context: .
+      dockerfile: pizza.Web/Dockerfile
+      
   postgres:
+    container_name: postgres 
     image: "postgres:12"
     environment:
       POSTGRES_USER: "postgres"
@@ -35,6 +26,7 @@ services:
     restart: unless-stopped
   
   pgadmin:
+    container_name: pgadmin 
     image: "dpage/pgadmin4:4.24"
     environment:
       PGADMIN_DEFAULT_EMAIL: admin
@@ -51,3 +43,4 @@ services:
       - "-c"
       - "/bin/echo 'postgres:5432:*:postgres:password' > /tmp/pgpassfile && chmod 600 /tmp/pgpassfile && /entrypoint.sh"
     restart: unless-stopped
+    

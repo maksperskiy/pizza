@@ -2,21 +2,21 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using pizza.Data.Models;
-using pizza.Services;
+using pizza.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace pizza.Controllers
+namespace pizza.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PizzasContoller : ControllerBase
+    public class PizzasController : ControllerBase
     {
         private readonly IPizzaService _service;
 
-        public PizzasContoller(IPizzaService service)
+        public PizzasController(IPizzaService service)
         {
             _service = service;
         }
@@ -37,7 +37,8 @@ namespace pizza.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok();
+            var result = await _service.Get();
+            return Ok(result);
         }
     }
 }

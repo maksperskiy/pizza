@@ -1,34 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using pizza.Data.Models;
-using pizza.Services;
+using pizza.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace pizza.Controllers
+namespace pizza.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class NamesController : ControllerBase
+    public class SizesController : ControllerBase
     {
-        private readonly INameService _service;
+        private readonly ISizeService _service;
 
-        public NamesController(INameService service)
+        public SizesController(ISizeService service)
         {
             _service = service;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CreateNameRequest request)
+        public async Task<IActionResult> Add([FromBody] CreateSizeRequest request)
         {
-            if (await _service.Exists(value:request.Value))
+            if (await _service.Exists(value:request.Value, name:request.Name))
             {
-                return Conflict("Name does already exist");
+                return Conflict("Size does already exist");
             }
 
-            var result = await _service.Create(request.Value);
+            var result = await _service.Create(request.Value, request.Name);
 
             return Ok(result);
         }
@@ -46,7 +46,7 @@ namespace pizza.Controllers
         {
             if (!await _service.Exists(Id))
             {
-                return NotFound("Name does not exist");
+                return NotFound("Size does not exist");
             }
 
             await _service.Remove(Id);

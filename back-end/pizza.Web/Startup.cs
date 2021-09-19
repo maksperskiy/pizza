@@ -9,14 +9,14 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using pizza.Data;
-using pizza.Services;
+using pizza.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace pizza
+namespace pizza.Web
 {
     public class Startup
     {
@@ -28,6 +28,7 @@ namespace pizza
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddJsonOptions(options =>
@@ -58,8 +59,6 @@ namespace pizza
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "pizza v1"));
-
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 

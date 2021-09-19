@@ -7,6 +7,7 @@ volumes:
 services:
 
   back-end:
+    container_name: back-end 
     image: ${DOCKER_REGISTRY-}pizza/back-end
     build:
       context: ./back-end
@@ -32,6 +33,7 @@ services:
 #      - back-end
 
   postgres:
+    container_name: postgres 
     image: "postgres:12"
     environment:
       POSTGRES_USER: "postgres"
@@ -45,6 +47,7 @@ services:
     restart: unless-stopped
   
   pgadmin:
+    container_name: pgadmin 
     image: "dpage/pgadmin4:4.24"
     environment:
       PGADMIN_DEFAULT_EMAIL: admin

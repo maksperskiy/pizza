@@ -1,31 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using pizza.Data.Models;
-using pizza.Services;
+using pizza.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace pizza.Controllers
+namespace pizza.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TypesController : ControllerBase
+    public class NamesController : ControllerBase
     {
-        private readonly ITypeService _service;
+        private readonly INameService _service;
 
-        public TypesController(ITypeService service)
+        public NamesController(INameService service)
         {
             _service = service;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CreateTypeRequest request)
+        public async Task<IActionResult> Add([FromBody] CreateNameRequest request)
         {
             if (await _service.Exists(value:request.Value))
             {
-                return Conflict("Type does already exist");
+                return Conflict("Name does already exist");
             }
 
             var result = await _service.Create(request.Value);
@@ -46,7 +46,7 @@ namespace pizza.Controllers
         {
             if (!await _service.Exists(Id))
             {
-                return NotFound("Type does not exist");
+                return NotFound("Name does not exist");
             }
 
             await _service.Remove(Id);
