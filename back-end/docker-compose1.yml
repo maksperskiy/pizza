@@ -6,25 +6,11 @@ volumes:
 
 services:
   pizza.web:
-    container_name: back-end
     image: ${DOCKER_REGISTRY-}pizzaweb
     build:
-      context: back-end/
-      dockerfile: pizza.Web/Dockerfile
-    ports:
-      - "8122:80"
-      - "8123:443"
+      context: pizza.Web/
+      dockerfile: Dockerfile
       
-#  front-end:
-#    image: ${DOCKER_REGISTRY-}front-end
-#    build:
-#      context: .
-#      dockerfile: front-end/Dockerfile
-#    ports:
-#       - 3000:3000
-#    depends_on:
-#      - pizza.web
-
   postgres:
     container_name: postgres 
     image: "postgres:12"
