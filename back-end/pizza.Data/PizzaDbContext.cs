@@ -14,6 +14,7 @@ namespace pizza.Data
         public DbSet<Name> Name { get; set; }
         public DbSet<Entities.Type> Type { get; set; }
         public DbSet<Size> Size { get; set; }
+        public DbSet<Category> Category { get; set; }
         public DbSet<Entities.Pizza> Pizza { get; set; }
         public DbSet<OrderUnit> OrderUnit { get; set; }
         public DbSet<Order> Order { get; set; }

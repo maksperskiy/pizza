@@ -9,13 +9,11 @@ using System.Threading.Tasks;
 
 namespace pizza.Data.Entities
 {
-    public class Name
+    public class Category
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid NameId { get; set; }
+        public Guid CategoryId { get; set; }
 
         public string Value { get; set; }
-
-        public byte[] Image { get; set; }
     }
 }

@@ -47,6 +47,7 @@ namespace pizza.Web
             services.AddScoped<INameService, NameService>();
             services.AddScoped<ITypeService, TypeService>();
             services.AddScoped<ISizeService, SizeService>();
+            services.AddScoped<ICategoryService, CategoryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

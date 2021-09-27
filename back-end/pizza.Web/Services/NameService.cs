@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using pizza.Data;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,9 +18,16 @@ namespace pizza.Web.Services
             _context = context;
         }
 
-        public async Task<Data.Entities.Name> Create(string value)
+        public async Task<Data.Entities.Name> Create(string value, IFormFile image)
         {
-            var name = new Data.Entities.Name { Value = value };
+            byte[] imageData = null;
+            // считываем переданный файл в массив байтов
+            using (var binaryReader = new BinaryReader(image.OpenReadStream()))
+            {
+                imageData = binaryReader.ReadBytes((int)image.Length);
+            }
+
+            var name = new Data.Entities.Name { Value = value, Image = imageData };
 
             await _context.Name.AddAsync(name);
             await _context.SaveChangesAsync();

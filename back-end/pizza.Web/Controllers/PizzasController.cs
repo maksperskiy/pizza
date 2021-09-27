@@ -22,15 +22,22 @@ namespace pizza.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromForm] CreatePizzaRequest request, IFormFile image)
+        public async Task<IActionResult> Add([FromBody] CreatePizzaRequest request)
         {
             /*if (await _service.Exists(value: request.Value, name: request.Name))
             {
                 return Conflict("Size does already exist");
             }*/
 
-            var result = await _service.Create(request, image);
+            var result = await _service.Create(request);
 
+            return Ok(result);
+        }
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _service.GetAll();
             return Ok(result);
         }
 

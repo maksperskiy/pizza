@@ -29,12 +29,15 @@ namespace pizza.Data.Entities
         [ForeignKey("SizeId")]
         public virtual Size Size { get; set; }
 
-        public byte[] Image { get; set; }
+        public Guid CategoryId { get; set; }
+
+        [ForeignKey("CategoryId")]
+        public virtual Category Category { get; set; }
 
         public decimal Price { get; set; }
 
         public float Rating { get; set; }
 
-        public Category Category { get; set; }
+        public bool Visible { get; set; }
     }
 }

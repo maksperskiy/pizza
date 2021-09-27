@@ -13,24 +13,24 @@ namespace pizza.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class NamesController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
-        private readonly INameService _service;
+        private readonly ICategoryService _service;
 
-        public NamesController(INameService service)
+        public CategoriesController(ICategoryService service)
         {
             _service = service;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromForm] CreateNameRequest request, IFormFile image)
+        public async Task<IActionResult> Add([FromBody] CreateNameRequest request)
         {
             if (await _service.Exists(value:request.Value))
             {
-                return Conflict("Name does already exist");
+                return Conflict("Category does already exist");
             }
 
-            var result = await _service.Create(request.Value, image);
+            var result = await _service.Create(request.Value);
 
             return Ok(result);
         }
@@ -48,7 +48,7 @@ namespace pizza.Web.Controllers
         {
             if (!await _service.Exists(Id))
             {
-                return NotFound("Name does not exist");
+                return NotFound("Category does not exist");
             }
 
             await _service.Remove(Id);

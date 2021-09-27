@@ -20,23 +20,16 @@ namespace pizza.Web.Services
             _context = context;
         }
 
-        public async Task<Data.Entities.Pizza> Create(CreatePizzaRequest request, IFormFile image)
+        public async Task<Data.Entities.Pizza> Create(CreatePizzaRequest request)
         {
-            byte[] imageData = null;
-            // считываем переданный файл в массив байтов
-            using (var binaryReader = new BinaryReader(image.OpenReadStream()))
-            {
-                imageData = binaryReader.ReadBytes((int)image.Length);
-            }
-
             var pizza = new Data.Entities.Pizza 
             { 
                 Name = _context.Name.Single(x => x.NameId == request.NameId),
                 Type = _context.Type.Single(x => x.TypeId == request.TypeId),
                 Size = _context.Size.Single(x => x.SizeId == request.SizeId),
-                Image = imageData,
+                Category = _context.Category.Single(x => x.CategoryId == request.CategoryId),
                 Price = request.Price,
-                Category = request.Category
+                Visible = request.Visible
             };
 
             await _context.Pizza.AddAsync(pizza);
@@ -46,6 +39,11 @@ namespace pizza.Web.Services
         }
 
         public async Task<IEnumerable<Data.Entities.Pizza>> Get()
+        {
+            return await _context.Pizza.Where(x => x.Visible == true).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Data.Entities.Pizza>> GetAll()
         {
             return await _context.Pizza.ToListAsync();
         }
