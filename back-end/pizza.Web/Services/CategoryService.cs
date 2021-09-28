@@ -47,5 +47,16 @@ namespace pizza.Web.Services
 
             return await _context.Category.AnyAsync(x => x.Value == value);
         }
+
+        public async Task<bool> PizzaExists(Guid Id)
+        {
+            return await _context.Pizza.AnyAsync(x => x.CategoryId == Id);
+        }
+
+        public async Task Hide(Guid Id)
+        {
+            await _context.Pizza.Where(x => x.CategoryId == Id).ForEachAsync(x => x.Visible = false);
+            _context.SaveChanges();
+        }
     }
 }

@@ -11,5 +11,7 @@ namespace pizza.Web.Services
         Task<IEnumerable<Data.Entities.Size>> Get();
         Task Remove(Guid Id);
         Task<bool> Exists(Guid? Id = null, int? value=null, string name=null);
+        Task<bool> PizzaExists(Guid Id);
+        Task Hide(Guid Id);
     }
 }

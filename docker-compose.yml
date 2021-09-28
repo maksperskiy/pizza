@@ -18,8 +18,8 @@ services:
 #  front-end:
 #    image: ${DOCKER_REGISTRY-}front-end
 #    build:
-#      context: .
-#      dockerfile: front-end/Dockerfile
+#      context: front-end/
+#      dockerfile: Dockerfile
 #    ports:
 #       - 3000:3000
 #    depends_on:

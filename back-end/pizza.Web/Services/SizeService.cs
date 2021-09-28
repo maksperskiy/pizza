@@ -57,5 +57,16 @@ namespace pizza.Web.Services
 
             return false;
         }
+
+        public async Task<bool> PizzaExists(Guid Id)
+        {
+            return await _context.Pizza.AnyAsync(x => x.SizeId == Id);
+        }
+
+        public async Task Hide(Guid Id)
+        {
+            await _context.Pizza.Where(x => x.SizeId == Id).ForEachAsync(x => x.Visible = false);
+            _context.SaveChanges();
+        }
     }
 }

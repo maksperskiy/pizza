@@ -49,7 +49,25 @@ namespace pizza.Web.Controllers
                 return NotFound("Size does not exist");
             }
 
+            if (await _service.PizzaExists(Id))
+            {
+                return BadRequest("Pizza with this size already exists");
+            }
+
             await _service.Remove(Id);
+
+            return Ok();
+        }
+
+        [HttpGet("{Id:Guid}/hide")]
+        public async Task<IActionResult> Hide([FromRoute] Guid Id)
+        {
+            if (!await _service.Exists(Id))
+            {
+                return NotFound("Size does not exist");
+            }
+
+            await _service.Hide(Id);
 
             return Ok();
         }
