@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PizzaLogo from './../assets/img/pizza-logo.svg';
-import { Button } from './importComponents';
+import PizzaLogo from './../../assets/img/pizza-logo.svg';
+import { Button } from './../importComponents';
 
 const Header = ({ totalPrice, totalPizzas }) => {
     return (
