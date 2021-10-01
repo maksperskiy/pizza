@@ -28,7 +28,7 @@ services:
       - pizza.web
 
   postgres:
-    container_name: postgres 
+    container_name: postgresFront
     image: "postgres:12"
     environment:
       POSTGRES_USER: "postgres"
