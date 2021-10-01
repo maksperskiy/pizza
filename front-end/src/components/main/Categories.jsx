@@ -1,6 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-const Categories = ({ categorieItems, activeCategorie, onClickCategorie }) => {
+const Categories = ({ activeCategorie, onClickCategorie }) => {
+    const { categorieItems } = useSelector(({ pizzas }) => ({
+        categorieItems: pizzas.categories
+    }));
+    
     return (
         <div className="categories">
             <ul>
@@ -9,10 +14,10 @@ const Categories = ({ categorieItems, activeCategorie, onClickCategorie }) => {
                     categorieItems && categorieItems.map((categorie, index) => 
                         <li
                             key={`categorie_${index}`}
-                            className={activeCategorie === index ? 'active' : ''}
-                            onClick={() => onClickCategorie(index)}
+                            className={activeCategorie === categorie.value ? 'active' : ''}
+                            onClick={() => onClickCategorie(categorie.value)}
                         >
-                            {categorie}
+                            {categorie.value}
                         </li>)
                 }
             </ul>

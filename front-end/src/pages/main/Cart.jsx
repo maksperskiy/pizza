@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Img from './../assets/img/empty-cart.png';
-import { clearCart } from './../redux/actions/importActions';
-import { Button, CartItem } from './../components/importComponents';
+import Img from './../../assets/img/empty-cart.png';
+import { clearCart } from './../../redux/actions/importActions';
+import { Button, CartItem } from './../../components/importComponents';
+
 
 const Cart = ({ items, totalPrice, totalPizzas }) => {
     const dispatch = useDispatch();

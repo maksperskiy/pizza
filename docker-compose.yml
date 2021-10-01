@@ -6,24 +6,26 @@ volumes:
 
 services:
   pizza.web:
-    container_name: back-end
     image: ${DOCKER_REGISTRY-}pizzaweb
     build:
       context: back-end/
       dockerfile: pizza.Web/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80/
+      - DOTNET_RUNNING_IN_CONTAINER=true
     ports:
-      - "8122:80"
-      - "8123:443"
+      - "8120:80"
       
-#  front-end:
-#    image: ${DOCKER_REGISTRY-}front-end
-#    build:
-#      context: front-end/
-#      dockerfile: Dockerfile
-#    ports:
-#       - 3000:3000
-#    depends_on:
-#      - pizza.web
+  front-end:
+    image: ${DOCKER_REGISTRY-}front-end
+    build:
+      context: front-end/
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - pizza.web
 
   postgres:
     container_name: postgres 
@@ -33,14 +35,14 @@ services:
       POSTGRES_PASSWORD: "password"
       PGDATA: "/data/postgres"
     volumes:
-       - postgres:/data/postgres
-       - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+      - postgres:/data/postgres
+      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
     ports:
       - "15432:5432"
     restart: unless-stopped
   
   pgadmin:
-    container_name: pgadmin 
+    container_name: pgadminFront 
     image: "dpage/pgadmin4:4.24"
     environment:
       PGADMIN_DEFAULT_EMAIL: admin
@@ -48,8 +50,8 @@ services:
       PGADMIN_CONFIG_SERVER_MODE: "False"
       PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
     volumes:
-       - pgadmin:/var/lib/pgadmin
-       - ./docker_pgadmin_servers.json:/pgadmin4/servers.json
+      - pgadmin:/var/lib/pgadmin
+      - ./docker_pgadmin_servers.json:/pgadmin4/servers.json
     ports:
       - "15433:80"
     entrypoint:

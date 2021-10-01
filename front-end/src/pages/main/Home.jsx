@@ -1,9 +1,8 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { setCategorie, setSortBy } from './../redux/actions/importActions';
-import { Categories, SortPopup, PizzaBlock, PizzaLoader } from './../components/importComponents';
+import { setCategorie, setSortBy } from './../../redux/actions/importActions';
+import { Categories, SortPopup, PizzaBlock, PizzaLoader } from './../../components/importComponents';
 
-const categorieItems = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 const sortPopupItems = [
     {name: 'популярности', type: 'rating', order: 'desc'},
     {name: 'цене', type: 'price', order: 'desc'},
@@ -25,7 +24,6 @@ const Home = ({ pizzas, isLoaded, activeCategorie, activeSortBy }) => {
         <div className="container container--home">
             <div className="content__top">
                 <Categories 
-                    categorieItems={categorieItems} 
                     activeCategorie={activeCategorie} 
                     onClickCategorie={onSelectCategorie} 
                 />
