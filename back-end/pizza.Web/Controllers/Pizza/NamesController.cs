@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace pizza.Web.Controllers
+namespace pizza.Web.Controllers.Pizza
 {
     [ApiController]
     [Route("api/[controller]")]

@@ -1,31 +1,33 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using pizza.Data.Models;
 using pizza.Web.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace pizza.Web.Controllers
+namespace pizza.Web.Controllers.Pizza
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TypesController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
-        private readonly ITypeService _service;
+        private readonly ICategoryService _service;
 
-        public TypesController(ITypeService service)
+        public CategoriesController(ICategoryService service)
         {
             _service = service;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CreateTypeRequest request)
+        public async Task<IActionResult> Add([FromBody] CreateNameRequest request)
         {
             if (await _service.Exists(value:request.Value))
             {
-                return Conflict("Type does already exist");
+                return Conflict("Category does already exist");
             }
 
             var result = await _service.Create(request.Value);
@@ -46,12 +48,12 @@ namespace pizza.Web.Controllers
         {
             if (!await _service.Exists(Id))
             {
-                return NotFound("Type does not exist");
+                return NotFound("Category does not exist");
             }
 
             if (await _service.PizzaExists(Id))
             {
-                return BadRequest("Pizza with this type already exists");
+                return BadRequest("Pizza with this category already exists");
             }
 
             await _service.Remove(Id);
@@ -64,7 +66,7 @@ namespace pizza.Web.Controllers
         {
             if (!await _service.Exists(Id))
             {
-                return NotFound("Type does not exist");
+                return NotFound("Category does not exist");
             }
 
             await _service.Hide(Id);

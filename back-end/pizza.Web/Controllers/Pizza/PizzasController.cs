@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace pizza.Web.Controllers
+namespace pizza.Web.Controllers.Pizza
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -46,6 +46,19 @@ namespace pizza.Web.Controllers
         {
             var result = await _service.Get();
             return Ok(result);
+        }
+
+        [HttpDelete("{Id:Guid}")]
+        public async Task<IActionResult> Remove([FromRoute] Guid Id)
+        {
+            if (!await _service.Exists(Id))
+            {
+                return NotFound("Pizza does not exist");
+            }
+
+            await _service.Remove(Id);
+
+            return Ok();
         }
     }
 }
