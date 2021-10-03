@@ -60,5 +60,18 @@ namespace pizza.Web.Controllers.Pizza
 
             return Ok();
         }
+
+        [HttpGet("{Id:Guid}/hide")]
+        public async Task<IActionResult> Hide([FromRoute] Guid Id)
+        {
+            if (!await _service.Exists(Id))
+            {
+                return NotFound("Pizza does not exist");
+            }
+
+            await _service.Hide(Id);
+
+            return Ok();
+        }
     }
 }

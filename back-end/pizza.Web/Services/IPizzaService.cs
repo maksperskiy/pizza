@@ -14,5 +14,6 @@ namespace pizza.Web.Services
         Task<IEnumerable<Data.Entities.Pizza>> Get();
         Task Remove(Guid Id);
         Task<bool> Exists(Guid? Id=null, CreatePizzaRequest request=null);
+        Task Hide(Guid id);
     }
 }
