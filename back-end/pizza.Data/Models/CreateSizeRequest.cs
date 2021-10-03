@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace pizza.Data.Models
+﻿namespace pizza.Data.Models
 {
     public class CreateSizeRequest
     {

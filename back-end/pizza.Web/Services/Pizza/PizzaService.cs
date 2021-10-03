@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using pizza.Data;
 using pizza.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace pizza.Web.Services
+namespace pizza.Web.Services.Pizza
 {
     public class PizzaService : IPizzaService
     {
@@ -22,8 +19,8 @@ namespace pizza.Web.Services
 
         public async Task<Data.Entities.Pizza> Create(CreatePizzaRequest request)
         {
-            var pizza = new Data.Entities.Pizza 
-            { 
+            var pizza = new Data.Entities.Pizza
+            {
                 Name = _context.Name.Single(x => x.NameId == request.NameId),
                 Type = _context.Type.Single(x => x.TypeId == request.TypeId),
                 Size = _context.Size.Single(x => x.SizeId == request.SizeId),

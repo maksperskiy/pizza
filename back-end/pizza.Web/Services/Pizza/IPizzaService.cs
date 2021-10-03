@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using pizza.Data.Models;
+﻿using pizza.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace pizza.Web.Services
+namespace pizza.Web.Services.Pizza
 {
     public interface IPizzaService
     {
@@ -13,7 +11,7 @@ namespace pizza.Web.Services
         Task<IEnumerable<Data.Entities.Pizza>> GetAll();
         Task<IEnumerable<Data.Entities.Pizza>> Get();
         Task Remove(Guid Id);
-        Task<bool> Exists(Guid? Id=null, CreatePizzaRequest request=null);
+        Task<bool> Exists(Guid? Id = null, CreatePizzaRequest request = null);
         Task Hide(Guid id);
     }
 }

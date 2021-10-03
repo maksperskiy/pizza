@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 using pizza.Data.Models;
-using pizza.Web.Services;
+using pizza.Web.Services.Pizza;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace pizza.Web.Controllers.Pizza
@@ -25,7 +20,7 @@ namespace pizza.Web.Controllers.Pizza
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] CreateNameRequest request)
         {
-            if (await _service.Exists(value:request.Value))
+            if (await _service.Exists(value: request.Value))
             {
                 return Conflict("Category does already exist");
             }

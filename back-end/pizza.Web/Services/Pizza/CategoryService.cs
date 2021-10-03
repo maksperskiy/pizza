@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace pizza.Web.Services
+namespace pizza.Web.Services.Pizza
 {
     public class CategoryService : ICategoryService
     {
@@ -38,7 +38,7 @@ namespace pizza.Web.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> Exists(Guid? Id=null, string value=null)
+        public async Task<bool> Exists(Guid? Id = null, string value = null)
         {
             if (Id != null)
             {

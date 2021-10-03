@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using pizza.Data.Entities;
-using System;
 
 namespace pizza.Data
 {
