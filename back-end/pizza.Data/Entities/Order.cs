@@ -24,6 +24,11 @@ namespace pizza.Data.Entities
         [ForeignKey("PromoId")]
         public virtual Promo Promo { get; set; }
 
-        public Status Status { get; set; }
+        public Guid CookSessionId { get; set; }
+
+        [ForeignKey("CookSessionId")]
+        public virtual CookSession CookSession { get; set; }
+
+        public Status OrderStatus { get; set; }
     }
 }

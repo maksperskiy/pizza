@@ -15,9 +15,14 @@ namespace pizza.Data
         public DbSet<Size> Size { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<Entities.Pizza> Pizza { get; set; }
+
         public DbSet<OrderUnit> OrderUnit { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<Promo> Promo { get; set; }
         public DbSet<Customer> Customer { get; set; }
+
+        public DbSet<Post> Post { get; set; }
+        public DbSet<Cook> Cook { get; set; }
+        public DbSet<CookSession> CookSession { get; set; }
     }
 }
