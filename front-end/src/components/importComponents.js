@@ -5,3 +5,11 @@ export { default as SortPopup } from './main/SortPopup';
 export { default as PizzaBlock } from './main/PizzaBlock';
 export { default as PizzaLoader } from './main/PizzaLoader';
 export { default as CartItem } from './main/CartItem';
+
+export { default as NavPanel } from './admin/NavPanel';
+export { default as Sidebar } from './admin/Sidebar';
+export { default as SidebarFolder } from './admin/SidebarFolder';
+export { default as Form } from './admin/Form';
+export { default as Table } from './admin/Table';
+export { default as FormSelect } from './admin/FormSelect';
+

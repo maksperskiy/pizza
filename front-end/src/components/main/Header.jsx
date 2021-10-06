@@ -1,13 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import PizzaLogo from './../../assets/img/pizza-logo.svg';
 import { Button } from './../importComponents';
 
 const Header = ({ totalPrice, totalPizzas }) => {
+    const { url } = useRouteMatch();
+
     return (
         <div className="header">
             <div className="container">
-                <Link to="/" className="header__logo">
+                <Link to={`${url}`} className="header__logo">
                     <img width="38" src={PizzaLogo} alt="Pizza logo" />
                     <div>
                         <h1>Pizza shop</h1>
@@ -15,7 +17,7 @@ const Header = ({ totalPrice, totalPizzas }) => {
                     </div>
                 </Link>
 
-                <Link to="/cart" className="header__cart">
+                <Link to={`${url}/cart`} className="header__cart">
                     <Button cart>
                         <span>{totalPrice} ₽</span>
                         <div className="button__delimiter"></div>

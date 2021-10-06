@@ -1,10 +1,7 @@
 const defaultState = {
     pizzas: [],
     isLoaded: false,
-    categories: [],
-    names: [],
-    sizes: [],
-    types: []
+    categories: []
 };
 
 const pizzas = (state = defaultState, action) => {
@@ -15,12 +12,6 @@ const pizzas = (state = defaultState, action) => {
             return {...state, isLoaded: action.payload}
         case 'SET_CATEGORIES':
             return {...state, categories: action.payload}
-        case 'SET_NAMES':
-            return {...state, names: action.payload}
-        case 'SET_SIZES':
-            return {...state, sizes: action.payload}  
-        case 'SET_TYPES':
-            return {...state, types: action.payload}  
         default:
             return state;
     }

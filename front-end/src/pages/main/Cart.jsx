@@ -15,7 +15,7 @@ const Cart = ({ items, totalPrice, totalPizzas }) => {
             dispatch(clearCart());
         }
     };
-
+    
     return (
         <div className="container container--cart">
             {
@@ -113,7 +113,7 @@ const Cart = ({ items, totalPrice, totalPizzas }) => {
                                 </span>
                             </div>
                             <div className="cart__bottom-buttons">
-                                <Link to="/">
+                                <Link to="/app">
                                     <Button outline add back>
                                         <svg
                                             width="8"
@@ -151,7 +151,7 @@ const Cart = ({ items, totalPrice, totalPizzas }) => {
                             Для того, чтобы заказать пиццу, перейди на главную страницу.
                         </p>
                         <img src={Img} alt="Empty cart" />
-                        <Link to="/">
+                        <Link to="/app">
                             <button href="/" className="button button--black">
                                 <span>На главную</span>
                             </button>
