@@ -5,7 +5,7 @@ const defaultState = {
         type: 'rating',
         order: 'desc'
     },
-    filterPizzas: []
+    // filterSortPizzas: []
 };
 
 const filter = (state = defaultState, action) => {
@@ -14,8 +14,8 @@ const filter = (state = defaultState, action) => {
             return {...state, categorie: action.payload}
         case 'SET_SORT_BY':
             return {...state, sortBy: action.payload}
-        case 'SET_FILTER_PIZZAS':
-            return {...state, filterPizzas: action.payload}
+        case 'SET_FILTER_SORT_PIZZAS':
+            return {...state, filterSortPizzas: action.payload}
         default:
             return state;
     }

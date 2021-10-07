@@ -19,7 +19,7 @@ const Home = ({ pizzas, isLoaded, activeCategorie, activeSortBy }) => {
     const onSelectSortBy = useCallback(sortBy => {
         dispatch(setSortBy(sortBy));
     }, [dispatch]);
-
+    
     return (
         <div className="container container--home">
             <div className="content__top">

@@ -4,9 +4,9 @@ import classnames from 'classnames';
 // import { addPizzaToCart } from './../../redux/actions/importActions';
 
 const PizzaBlock = (/*{ id, imageUrl, name, types, sizes, price }*/{pizzaId, name, types, sizes, price }) => {
-    const { allSizes, allTypes } = useSelector(({ pizzas }) => ({
-        allSizes: pizzas.sizes,
-        allTypes: pizzas.types
+    const { allSizes, allTypes } = useSelector(({ admin }) => ({
+        allSizes: admin.sizes,
+        allTypes: admin.types
     }));
     // const dispatch = useDispatch();
     // const typesArray = ['Тонкое', 'Традиционное'];

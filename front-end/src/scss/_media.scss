@@ -31,12 +31,9 @@
 }
 
 @media screen and (max-width: 992px) {
-    body {
-        padding: 25px 0;
-    }
-
     .wrapper {
         width: calc(100vw - 50px);
+        margin: 25px auto;
     }
     
     .categories {
@@ -61,12 +58,9 @@
 }
 
 @media screen and (max-width: 768px) {
-    body {
-        padding: 10px 0;
-    }
-
     .wrapper {
         width: calc(100vw - 20px);
+        margin: 10px auto;
     }
 
     .categories {

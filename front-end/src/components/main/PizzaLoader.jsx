@@ -4,8 +4,8 @@ import ContentLoader from "react-content-loader";
 const PizzaLoader = (props) => {
     return (
         <ContentLoader 
-            speed={2}
-            width={280}
+            speed={0.8}
+            width="100px"
             height={426}
             viewBox="0 0 280 426"
             backgroundColor="#f3f3f3"
