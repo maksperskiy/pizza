@@ -14,10 +14,10 @@ const FormSelect = ({ keyValue, props, stateItems }) => {
                 onChange={props.handleChange}
             >
                 <option
-                        key='none'
-                        value='none'
-                    >
-                        none
+                    key='none'
+                    value='none'
+                >
+                    none
                 </option>
                 {stateItems.map((item) => (
                     <option

@@ -6,7 +6,7 @@ import { Add as AddIcon } from '@material-ui/icons';
 import switchAdminState from './../../functions/switchAdminState';
 import { FormSelect } from './../importComponents';
 
-const Form = ({ itemsKeys, postItem, message, setMessage, path }) => {
+const Form = ({ itemsKeys, postItem, path }) => {
     const { allCategories, allNames, allSizes, allTypes } = useSelector(({ admin }) => ({
         allCategories: admin.categories,
         allNames: admin.names,

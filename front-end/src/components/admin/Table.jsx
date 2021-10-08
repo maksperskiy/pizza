@@ -41,7 +41,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Table = ({ itemsKeys, allItems, deleteItem }) => {
-    console.log(itemsKeys, allItems);
     return (
         <TableContainer component={Paper} sx={{overflow: 'hidden'}}>
             <TableMaterial sx={{ minWidth: 720 }} aria-label="customized table">

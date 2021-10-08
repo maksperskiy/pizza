@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Typography } from '@material-ui/core';
+import { Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { NavPanel, Sidebar } from './../../components/importComponents';
 import { ContentPage, Pizzas } from './../../pages/importPages';
@@ -29,10 +29,9 @@ const Admin = () => {
     };
 
     return (
-        <div style={{height: '100vh', background: '#fff'}}>
+        <Box style={{height: '100vh', background: '#fff'}}>
             <NavPanel toggleDrawer={toggleDrawer} />
             <Sidebar visibleSidebar={visibleSidebar} toggleDrawer={toggleDrawer} />
-
             <Switch>
                 <Route path="/admin" exact component={() => <Typography variant="h2" component="h1" className={classes.intro}>Добро пожаловать<br/> в админку сайта Pizza Shop</Typography>} />
                 {
@@ -52,7 +51,7 @@ const Admin = () => {
                 </Route> */}
                 <Route path="/*" exact component={() => <Typography variant="h2" component="h1" className={classes.intro}>Добро пожаловать<br/> в админку сайта Pizza Shop</Typography>} />
             </Switch>
-        </div>
+        </Box>
     );
 };
 
