@@ -1,12 +1,11 @@
 import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { useField, Formik, Form as FormField } from 'formik';
-import { Box, Button, Checkbox, Input, Fab } from '@material-ui/core';
-import { Add as AddIcon } from '@material-ui/icons';
-import switchAdminState from './../../functions/switchAdminState';
-import { FormSelect } from './../importComponents';
+import { Formik, Form as ContentForm } from 'formik';
+import { Box, Button } from '@material-ui/core';
+import { switchAdminState, switchKeysWithoutId } from './../../functions/importFunctions';
+import { FormSelect, FormInput } from './../importComponents';
 
-const Form = ({ itemsKeys, postItem, path }) => {
+const Form = ({ postItem, path }) => {
     const { allCategories, allNames, allSizes, allTypes } = useSelector(({ admin }) => ({
         allCategories: admin.categories,
         allNames: admin.names,
@@ -14,38 +13,18 @@ const Form = ({ itemsKeys, postItem, path }) => {
         allTypes: admin.types
     }));
 
-    let keysWithoutId;
-    if(path === 'pizzas') {
-        keysWithoutId = ['nameId', 'typeId', 'sizeId', 'categoryId', 'price', 'visible'];
-    } else {
-        keysWithoutId = itemsKeys.length && itemsKeys.filter(key => !/Id/.test(key));
-    }
-    const keysObj = itemsKeys && keysWithoutId.reduce(function(acc, cur) {
+    const keysWithoutId = switchKeysWithoutId(path);
+
+    const keysObj = keysWithoutId && keysWithoutId.reduce(function(acc, cur) {
+        if(cur === 'visible') {
+            acc[cur] = true;
+            return acc;
+        }
         acc[cur] = '';
         return acc;
     }, {});
 
     const formRef = useRef();
-
-    const InputTextField = ({ ...props }) => {
-        const [field, meta, helpers] = useField(props);
-
-        return (
-            <>
-                <Input {...field} {...props} />
-            </>
-        );
-    };
-
-    const InputCheckboxField = ({ ...props }) => {
-        const [field, meta, helpers] = useField(props);
-
-        return (
-            <>
-                <Checkbox {...field} {...props} color="secondary" />
-            </>
-        );
-    };
 
     return (
         <div className="App">
@@ -55,19 +34,33 @@ const Form = ({ itemsKeys, postItem, path }) => {
                 }}
                 onSubmit={(values, { resetForm }) => {
                         const formData = new FormData(formRef.current);
-                        if(itemsKeys && itemsKeys.includes('image')) {
-                            formData.append('image', values['file']);
+                        if(keysWithoutId && keysWithoutId.includes('image')) {
                             postItem(formData);
                         } else {
                             postItem(values);
                         }
+                        console.log(values);
                         resetForm({values: ''});
+                }}
+                validate = {values => {
+                    const errors = {};
+                    
+                    keysWithoutId.map(key => {
+                        if(key === 'visible') {
+                            return;
+                        }
+                        if(!values[key]) {
+                            errors[key] = 'Required';
+                        }
+                    })
+                    console.log(errors);
+                    return errors;
                 }}
             >
                 {(props) => {
                     return (
                         <Box mb={2}>
-                            <FormField 
+                            <ContentForm 
                                 ref={formRef} 
                                 style={{display: 'flex', alignItems: 'center', flexWrap: 'wrap'}}
                             >
@@ -78,30 +71,8 @@ const Form = ({ itemsKeys, postItem, path }) => {
                                                 keyValue={key}
                                                 props={props}
                                                 stateItems={switchAdminState(key, allCategories, allNames, allSizes, allTypes)}
-                                            />
-                                            :
-                                        key === 'image' ?
-                                            <label htmlFor={key}>
-                                                <input
-                                                    style={{ display: "none" }}
-                                                    id={key}
-                                                    name={key}
-                                                    type="file"
-                                                    value={props.values[key]}
-                                                    onChange={(e) => props.setFieldValue('file', e.currentTarget.files[0])}
-                                                />
-                                                <Fab
-                                                    color="secondary"
-                                                    size="small"
-                                                    component="span"
-                                                    variant="extended"
-                                                >
-                                                    <AddIcon /> Upload photo
-                                                </Fab>
-                                            </label> :
-                                        key === 'visible' ?
-                                            <InputCheckboxField name={key} /> :
-                                            <InputTextField name={key} placeholder={key} />
+                                            /> :
+                                            <FormInput keyValue={key} />
                                     )
                                 }
                                 <Button 
@@ -112,7 +83,7 @@ const Form = ({ itemsKeys, postItem, path }) => {
                                 >
                                     Добавить
                                 </Button>
-                            </FormField>
+                            </ContentForm>
                         </Box>
                     );
                 }}

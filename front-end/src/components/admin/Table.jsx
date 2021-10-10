@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table as TableMaterial, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Paper, styled, IconButton } from '@material-ui/core';
 import { Delete as DeleteIcon } from '@material-ui/icons';
-import { cutStr } from './../../functions/str';
+import { cutStr } from './../../functions/importFunctions';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses}`]: {
@@ -42,50 +42,54 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Table = ({ itemsKeys, allItems, deleteItem }) => {
     return (
-        <TableContainer component={Paper} sx={{overflow: 'hidden'}}>
-            <TableMaterial sx={{ minWidth: 720 }} aria-label="customized table">
-                <TableHead>
-                    <TableRow>
-                        {
-                            itemsKeys && itemsKeys.map(key => 
-                                <StyledTableCell>{key}</StyledTableCell>
-                            )
-                        }
-                        <StyledTableCell></StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {
-                        allItems.map(item => 
-                            <StyledTableRow sx={{position: 'relative'}}>
-                                {itemsKeys.map((key, index) => 
-                                    <>
-                                        {typeof item[key] === 'object' ?
-                                            <StyledTableCell>
-                                                {cutStr(String(item[key]['value']), 'value')}
-                                            </StyledTableCell> : 
-                                            <StyledTableCell>
-                                                {
-                                                    cutStr(String(item[key]), key)
+        <>{
+            allItems.length ? 
+                <TableContainer component={Paper} sx={{overflow: 'hidden'}}>
+                    <TableMaterial sx={{ minWidth: 720 }} aria-label="customized table">
+                        <TableHead>
+                            <TableRow>
+                                {
+                                    itemsKeys && itemsKeys.map(key => 
+                                        <StyledTableCell>{key}</StyledTableCell>
+                                    )
+                                }
+                                <StyledTableCell></StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {
+                                allItems.map(item => 
+                                    <StyledTableRow sx={{position: 'relative'}}>
+                                        {itemsKeys.map((key, index) => 
+                                            <>
+                                                {typeof item[key] === 'object' ?
+                                                    <StyledTableCell>
+                                                        {cutStr(String(item[key]['value']), 'value')}
+                                                    </StyledTableCell> : 
+                                                    <StyledTableCell>
+                                                        {
+                                                            cutStr(String(item[key]), key)
+                                                        }
+                                                    </StyledTableCell>
                                                 }
-                                            </StyledTableCell>
-                                        }
-                                    </>
-                                )}
-                                <IconButton
-                                    size="small"
-                                    edge="start"
-                                    aria-label="home"
-                                    onClick={() => deleteItem(item[itemsKeys[0]])}
-                                >
-                                    <DeleteIcon />
-                                </IconButton>
-                            </StyledTableRow>
-                        )
-                    }
-                </TableBody>
-            </TableMaterial>
-        </TableContainer>
+                                            </>
+                                        )}
+                                        <IconButton
+                                            size="small"
+                                            edge="start"
+                                            aria-label="home"
+                                            onClick={() => deleteItem(item[itemsKeys[0]])}
+                                        >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </StyledTableRow>
+                                )
+                            }
+                        </TableBody>
+                    </TableMaterial>
+                </TableContainer> :
+                'Пустая таблица'
+        }</>
     );
 }
 

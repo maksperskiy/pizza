@@ -19,14 +19,16 @@ const FormSelect = ({ keyValue, props, stateItems }) => {
                 >
                     none
                 </option>
-                {stateItems.map((item) => (
-                    <option
-                        key={item[keyValue]}
-                        value={item[keyValue]}
-                    >
-                        {item['value']}
-                    </option>
-                ))}
+                {
+                    stateItems.map((item) => (
+                        <option
+                            key={item[keyValue]}
+                            value={item[keyValue]}
+                        >
+                            {item['value']}
+                        </option>
+                    ))
+                }
             </NativeSelect>
         </FormControl>
     );
