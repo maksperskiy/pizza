@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using pizza.Data.Models;
-using pizza.Web.Services.Pizza;
+using pizza.Web.Services.Cook;
 using System;
 using System.Threading.Tasks;
 
@@ -10,64 +10,54 @@ namespace pizza.Web.Controllers.Cook
     [Route("api/[controller]")]
     public class CookSessionController : ControllerBase
     {
-/*        private readonly IOrderService _service;
+        private readonly ICookSessionService _service;
 
-        public CookSessionController(IPizzaService service)
+        public CookSessionController(ICookSessionService service)
         {
             _service = service;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CreatePizzaRequest request)
+        public async Task<IActionResult> Add([FromBody] CookSessionRequest request)
         {
-            *//*if (await _service.Exists(value: request.Value, name: request.Name))
+            if (!await _service.CookExists(request.CookId))
             {
-                return Conflict("Size does already exist");
-            }*//*
-
-            var result = await _service.Create(request);
-
-            return Ok(result);
-        }
-
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAll()
-        {
-            var result = await _service.GetAll();
-            return Ok(result);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            var result = await _service.Get();
-            return Ok(result);
-        }
-
-        [HttpDelete("{Id:Guid}")]
-        public async Task<IActionResult> Remove([FromRoute] Guid Id)
-        {
-            if (!await _service.Exists(Id))
-            {
-                return NotFound("Pizza does not exist");
+                return NotFound("Cook not exists");
             }
 
-            await _service.Remove(Id);
+            if (await _service.Exists(request.CookId))
+            {
+                return Conflict("Session already exists");
+            }
+
+            await _service.Create(request.CookId);
 
             return Ok();
         }
 
-        [HttpGet("{Id:Guid}/hide")]
-        public async Task<IActionResult> Hide([FromRoute] Guid Id)
+        [HttpGet("{cookId:Guid}")]
+        public async Task<IActionResult> Get([FromRoute] Guid cookId)
         {
-            if (!await _service.Exists(Id))
+            if (!await _service.CookExists(cookId))
             {
-                return NotFound("Pizza does not exist");
+                return NotFound("Cook not exists");
             }
 
-            await _service.Hide(Id);
+            var result = await _service.Get(cookId);
+            return Ok(result);
+        }
+
+        [HttpPut("{cookId:Guid}/end")]
+        public async Task<IActionResult> End([FromRoute] Guid cookId)
+        {
+            if (!await _service.Exists(cookId))
+            {
+                return NotFound("Session not exists");
+            }
+
+            await _service.End(cookId);
 
             return Ok();
-        }*/
+        }
     }
 }
