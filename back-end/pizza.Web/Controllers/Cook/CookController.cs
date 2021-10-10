@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using pizza.Data.Models;
-using pizza.Web.Services.Cook;
+using pizza.Web.Services.Pizza;
 using System;
 using System.Threading.Tasks;
 
@@ -10,23 +10,30 @@ namespace pizza.Web.Controllers.Cook
     [Route("api/[controller]")]
     public class CookController : ControllerBase
     {
-        private readonly ICookService _service;
+       /* private readonly IOrderService _service;
 
-        public CookController(ICookService service)
+        public CookController(IPizzaService service)
         {
             _service = service;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CreateCookRequest request)
+        public async Task<IActionResult> Add([FromBody] CreatePizzaRequest request)
         {
-            if (await _service.Exists(name: request.Name, phone: request.Phone))
+            *//*if (await _service.Exists(value: request.Value, name: request.Name))
             {
-                return Conflict("This cook already exists");
-            }
+                return Conflict("Size does already exist");
+            }*//*
 
             var result = await _service.Create(request);
 
+            return Ok(result);
+        }
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _service.GetAll();
             return Ok(result);
         }
 
@@ -42,7 +49,7 @@ namespace pizza.Web.Controllers.Cook
         {
             if (!await _service.Exists(Id))
             {
-                return NotFound("Cook not exists");
+                return NotFound("Pizza does not exist");
             }
 
             await _service.Remove(Id);
@@ -50,30 +57,17 @@ namespace pizza.Web.Controllers.Cook
             return Ok();
         }
 
-        [HttpPut("{Id:Guid}/status")]
-        public async Task<IActionResult> Status([FromRoute] Guid Id, [FromBody] ChangeStatusRequest request)
+        [HttpGet("{Id:Guid}/hide")]
+        public async Task<IActionResult> Hide([FromRoute] Guid Id)
         {
             if (!await _service.Exists(Id))
             {
-                return NotFound("Cook not exists");
+                return NotFound("Pizza does not exist");
             }
 
-            await _service.Status(Id, request.Status);
+            await _service.Hide(Id);
 
             return Ok();
-        }
-
-        [HttpPut("{Id:Guid}/post")]
-        public async Task<IActionResult> Post([FromRoute] Guid Id, [FromBody] ChangePostRequest request)
-        {
-            if (!await _service.Exists(Id))
-            {
-                return NotFound("Cook not exists");
-            }
-
-            await _service.Post(Id, request.PostId);
-
-            return Ok();
-        }
+        }*/
     }
 }

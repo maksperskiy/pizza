@@ -16,6 +16,6 @@ namespace pizza.Data.Entities
 
         public DateTime DateTimeStart { get; set; }
 
-        public DateTime? DateTimeEnd { get; set; }
+        public DateTime DateTimeEnd { get; set; }
     }
 }
