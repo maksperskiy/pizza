@@ -19,12 +19,12 @@ namespace pizza.Data.Entities
 
         public DateTime DateTime { get; set; }
 
-        public Guid PromoId { get; set; }
+        public Guid? PromoId { get; set; }
 
         [ForeignKey("PromoId")]
         public virtual Promo Promo { get; set; }
 
-        public Guid CookSessionId { get; set; }
+        public Guid? CookSessionId { get; set; }
 
         [ForeignKey("CookSessionId")]
         public virtual CookSession CookSession { get; set; }

@@ -17,8 +17,4 @@
     <ProjectReference Include="..\pizza.Data\pizza.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Order\" />
-  </ItemGroup>
-
 </Project>

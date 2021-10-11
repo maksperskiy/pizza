@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using pizza.Data.Models;
+using pizza.Data.Models.Order;
+using pizza.Web.Services.Order;
 using pizza.Web.Services.Pizza;
 using System;
 using System.Threading.Tasks;
@@ -8,66 +10,50 @@ namespace pizza.Web.Controllers.Order
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CookController : ControllerBase
+    public class OrderController : ControllerBase
     {
-        /*private readonly IOrderService _service;
+        private readonly IOrderService _service;
 
-        public CookController(IPizzaService service)
+        public OrderController(IOrderService service)
         {
             _service = service;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CreatePizzaRequest request)
+        public async Task<IActionResult> Add([FromBody] CreateOrderRequest request)
         {
-            *//*if (await _service.Exists(value: request.Value, name: request.Name))
+            if (request.Promo != null && !await _service.PromoExists(request.Promo))
             {
-                return Conflict("Size does already exist");
-            }*//*
+                return Conflict("Promo not exists");
+            }
 
-            var result = await _service.Create(request);
+            await _service.Create(request);
 
-            return Ok(result);
-        }
-
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAll()
-        {
-            var result = await _service.GetAll();
-            return Ok(result);
+            return Ok();
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = await _service.Get();
+            var result = await _service.GetOrders();
+
             return Ok(result);
         }
 
-        [HttpDelete("{Id:Guid}")]
-        public async Task<IActionResult> Remove([FromRoute] Guid Id)
+        [HttpPut("{Id:Guid}/status")]
+        public async Task<IActionResult> Status([FromRoute] Guid Id, [FromBody] ChangeStatusRequest request)
         {
-            if (!await _service.Exists(Id))
-            {
-                return NotFound("Pizza does not exist");
-            }
-
-            await _service.Remove(Id);
+            await _service.Status(Id, request.Status);
 
             return Ok();
         }
 
-        [HttpGet("{Id:Guid}/hide")]
-        public async Task<IActionResult> Hide([FromRoute] Guid Id)
+        [HttpPut("{Id:Guid}/assign")]
+        public async Task<IActionResult> Assign([FromRoute] Guid Id, [FromBody] AssignOrderRequest request)
         {
-            if (!await _service.Exists(Id))
-            {
-                return NotFound("Pizza does not exist");
-            }
-
-            await _service.Hide(Id);
+            await _service.AssignOrder(Id, request.CookSessionId);
 
             return Ok();
-        }*/
+        }
     }
 }

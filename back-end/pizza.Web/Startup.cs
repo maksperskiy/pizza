@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using pizza.Data;
 using pizza.Web.Services.Cook;
+using pizza.Web.Services.Order;
 using pizza.Web.Services.Pizza;
 using System.Text.Json.Serialization;
 
@@ -46,6 +47,9 @@ namespace pizza.Web
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<ICookService, CookService>();
             services.AddScoped<ICookSessionService, CookSessionService>();
+
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IPromoService, PromoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
