@@ -44,6 +44,8 @@ namespace pizza.Web
             services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<ICookService, CookService>();
+            services.AddScoped<ICookSessionService, CookSessionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
