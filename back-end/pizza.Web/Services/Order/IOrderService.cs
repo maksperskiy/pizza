@@ -14,5 +14,7 @@ namespace pizza.Web.Services.Order
         Task AssignOrder(Guid Id, Guid cookSessionId);
         Task Status(Guid Id, Status status);
         Task<bool> PromoExists(string promo);
+        Task<IEnumerable<OrderModel>> GetCustomer(Guid Id);
+        Task<IEnumerable<Data.Entities.Customer>> GetCustomers();
     }
 }

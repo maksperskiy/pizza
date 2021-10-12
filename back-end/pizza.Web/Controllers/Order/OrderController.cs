@@ -40,6 +40,22 @@ namespace pizza.Web.Controllers.Order
             return Ok(result);
         }
 
+        [HttpGet("customers")]
+        public async Task<IActionResult> GetCustomers()
+        {
+            var result = await _service.GetCustomers();
+
+            return Ok(result);
+        }
+
+        [HttpGet("customers/{Id:Guid}")]
+        public async Task<IActionResult> GetCustomer([FromRoute] Guid Id)
+        {
+            var result = await _service.GetCustomer(Id);
+
+            return Ok(result);
+        }
+
         [HttpPut("{Id:Guid}/status")]
         public async Task<IActionResult> Status([FromRoute] Guid Id, [FromBody] ChangeStatusRequest request)
         {

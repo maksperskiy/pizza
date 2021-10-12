@@ -101,6 +101,43 @@ namespace pizza.Web.Services.Order
             return orders;
         }
 
+        public async Task<IEnumerable<Data.Entities.Customer>> GetCustomers()
+        {
+            return await _context.Customer.ToListAsync();
+        }
+        
+        public async Task<IEnumerable<Data.Models.Order.OrderModel>> GetCustomer(Guid Id)
+        {
+            var orders = new List<OrderModel>();
+
+            foreach (var order in _context.Order.Include(x => x.Promo).Include(x => x.CookSession).Include(x => x.Customer).Where(x => x.CustomerId == Id).ToList())
+            {
+                var pizzas = await _context.OrderUnit
+                    .Include(x => x.Pizza.Category)
+                    .Include(x => x.Pizza.Size)
+                    .Include(x => x.Pizza.Name)
+                    .Include(x => x.Pizza.Type)
+                    .Where(x => x.OrderId == order.OrderId).Select(x => x.Pizza)
+                    .ToListAsync();
+
+                var orderModel = new OrderModel
+                {
+                    OrderId = order.OrderId,
+                    Customer = order.Customer,
+                    Address = order.Address,
+                    CookSession = order.CookSession,
+                    Promo = order.Promo,
+                    Pizzas = pizzas,
+                    Status = order.OrderStatus,
+                    Price = _context.OrderUnit.Include(x => x.Pizza).Where(x => x.OrderId == order.OrderId).Select(x => x.Pizza.Price).Sum() * (1 - (decimal)order.Promo.Value / 100)
+                };
+
+                orders.Add(orderModel);
+            }
+
+            return orders;
+        }
+
         public async Task<bool> PromoExists(string promo)
         {
             return await _context.Promo.AnyAsync(x => x.PromoCode == promo);
