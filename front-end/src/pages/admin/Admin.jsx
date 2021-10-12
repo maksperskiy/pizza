@@ -40,7 +40,10 @@ const Admin = () => {
                         {path: 'names', component: ContentPage},
                         {path: 'pizzas', component: ContentPage},
                         {path: 'sizes', component: ContentPage},
-                        {path: 'types', component: ContentPage}
+                        {path: 'types', component: ContentPage},
+                        
+                        {path: 'cook', component: ContentPage},
+                        {path: 'post', component: ContentPage}
                     ].map(({ path, component }) => 
                         <Route key={path} path={`/admin/${path}`}>
                             <ContentPage path={path} />

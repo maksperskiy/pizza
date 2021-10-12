@@ -1,6 +1,6 @@
-import { setAllCategories, setAllNames, setAllSizes, setAllTypes, fetchData } from './../redux/actions/importActions';
+import { setAllCategories, setAllNames, setAllSizes, setAllTypes, setAllCook, setAllPost, fetchData } from './../redux/actions/importActions';
 
-const switchAdminState = (key, allCategories, allNames, allSizes, allTypes) => {
+const switchAdminState = (key, allCategories, allNames, allSizes, allTypes, allCook, allPost) => {
     switch(key) {
         case 'categoryId':
             return allCategories;
@@ -9,7 +9,12 @@ const switchAdminState = (key, allCategories, allNames, allSizes, allTypes) => {
         case 'sizeId':
             return allSizes;
         case 'typeId':
-            return allTypes;    
+            return allTypes;
+        
+        case 'cook':
+            return allCook;
+        case 'postId':
+            return allPost; 
         default:
             break;
     }
@@ -26,6 +31,11 @@ const switchKeysWithoutId = (routePath) => {
         case 'sizes':
             return ['value', 'name'];
         case 'types':
+            return ['value'];
+        
+        case 'cook':
+            return ['name', 'phone', 'postId', 'cookStatus'];
+        case 'post':
             return ['value'];
         default:
             break;
@@ -45,6 +55,12 @@ const switchRoutePath = (routePath, data) => {
                 return setAllSizes(data);
             case 'Types':
                 return setAllTypes(data);
+
+            case 'Cook':
+                return fetchData();
+            //     return setAllCook(data);
+            case 'Post':
+                return setAllPost(data);
             default:
                 break;
         }

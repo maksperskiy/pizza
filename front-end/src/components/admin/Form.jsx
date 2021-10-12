@@ -6,11 +6,14 @@ import { switchAdminState, switchKeysWithoutId } from './../../functions/importF
 import { FormSelect, FormInput } from './../importComponents';
 
 const Form = ({ postItem, path }) => {
-    const { allCategories, allNames, allSizes, allTypes } = useSelector(({ admin }) => ({
+    const { allCategories, allNames, allSizes, allTypes, allCook, allPost } = useSelector(({ admin }) => ({
         allCategories: admin.categories,
         allNames: admin.names,
         allSizes: admin.sizes,
-        allTypes: admin.types
+        allTypes: admin.types,
+
+        allCook: admin.cook,
+        allPost: admin.post
     }));
 
     const keysWithoutId = switchKeysWithoutId(path);
@@ -70,7 +73,7 @@ const Form = ({ postItem, path }) => {
                                             <FormSelect
                                                 keyValue={key}
                                                 props={props}
-                                                stateItems={switchAdminState(key, allCategories, allNames, allSizes, allTypes)}
+                                                stateItems={switchAdminState(key, allCategories, allNames, allSizes, allTypes, allCook, allPost)}
                                             /> :
                                             <FormInput keyValue={key} />
                                     )
