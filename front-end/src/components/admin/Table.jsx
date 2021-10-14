@@ -78,8 +78,9 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
                                                                 }}
                                                             >
                                                                 <EditIcon />
-                                                            </IconButton> :
-                                                        key === 'dateTimeEnd' ?
+                                                            </IconButton> : ''
+                                                        }
+                                                        {/*key === 'dateTimeEnd' ?
                                                             <IconButton
                                                                 size="small"
                                                                 edge="start"
@@ -90,7 +91,8 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
                                                             >
                                                                 <CheckCircleIcon />
                                                             </IconButton>
-                                                            : ''}
+                                                            : ''}*/}
+                                                            
                                                     </StyledTableCell> : 
                                                     <StyledTableCell>
                                                         {
@@ -98,7 +100,7 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
                                                                 cleanTheDate(cutStr(String(item[key]), key)) :
                                                                 cutStr(String(item[key]), key)
                                                         }
-                                                        {key === 'cookStatus' ? 
+                                                        {/* {key === 'cookStatus' ? 
                                                             <IconButton
                                                                 size="small"
                                                                 edge="start"
@@ -110,7 +112,7 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
                                                                 }}
                                                             >
                                                                 <EditIcon />
-                                                            </IconButton> : ''}
+                                                            </IconButton> : ''} */}
                                                     </StyledTableCell>
                                                 }
                                             </>

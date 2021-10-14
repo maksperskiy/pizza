@@ -19,17 +19,18 @@ const FormUpdate = ({ putItem, putStatusId, setVisibleFormPost, statusArray, ele
     console.log(elemUpdate);
 
     const [activeSelectItem, setActiveSelectItem] = React.useState(
-        // elemUpdate === 'post' ? optionItems[0]['postId'] : optionItems[0]
         elemUpdate === 'post' ? optionItems[0]['postId'] : ''
     );
-
+    
     const handleChange = (item) => {
         setActiveSelectItem(item.target.value);
     };
+
     const post = () => {
-        elemUpdate === 'post' ? 
-            putItem(putStatusId, {postId: activeSelectItem}) : 
-            putItem(putStatusId, {status: activeSelectItem})
+        // elemUpdate === 'post' ? 
+        //     putItem(putStatusId, {postId: activeSelectItem}) : 
+        //     putItem(putStatusId, {status: activeSelectItem})
+        putItem(putStatusId, {postId: activeSelectItem})
         setVisibleFormPost(true);
     };
 

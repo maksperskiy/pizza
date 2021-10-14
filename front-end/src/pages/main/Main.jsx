@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
-import { fetchPizzas } from './../../redux/actions/importActions';
+import { fetchPizzas, fetchData } from './../../redux/actions/importActions';
 import { Header } from './../../components/importComponents';
 import { Home, Cart, PageNotFound } from './../../pages/importPages';
 
@@ -21,6 +21,10 @@ function Main() {
         totalPrice: cart.totalPrice,
         totalPizzas: cart.totalPizzas
     }));
+
+    useEffect(() => {
+        dispatch(fetchData());
+    }, []);
 
     useEffect(() => {
         dispatch(fetchPizzas(activeCategorie, activeSortBy));

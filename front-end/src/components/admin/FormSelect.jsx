@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormControl, NativeSelect } from '@material-ui/core';
 
-const FormSelect = ({ keyValue, props, stateItems }) => {
+const FormSelect = ({ keyValue, props, stateItems, inputDisabled, inputCategoryName }) => {
     return (
         <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <NativeSelect
@@ -12,12 +12,24 @@ const FormSelect = ({ keyValue, props, stateItems }) => {
                 }}
                 value={props.values[keyValue]}
                 onChange={props.handleChange}
-                disabled={keyValue === 'cookStatus' ? true : false}
+                disabled=
+                {
+                    // keyValue === 'cookStatus' ? true : false
+                    keyValue === 'cookStatus' ? true :
+                        inputDisabled && keyValue === 'categoryId' ? true : false
+                }
             >
                 <option
                     value=''
                 >
-                    {keyValue === 'cookStatus' ? 'Pending' : 'none'}
+                    {
+                        keyValue === 'cookStatus' ? 
+                            'Pending' :
+                            inputDisabled && keyValue === 'categoryId' && inputCategoryName ?
+                            inputCategoryName :
+                            'none'
+                    }
+                    {/* {keyValue === 'categoryId' ? inputCategoryName : ''} */}
                 </option>
                 {
                     stateItems.map((item, index) => (
@@ -41,4 +53,4 @@ const FormSelect = ({ keyValue, props, stateItems }) => {
     );
 };
 
-export default FormSelect;
+export default React.memo(FormSelect);

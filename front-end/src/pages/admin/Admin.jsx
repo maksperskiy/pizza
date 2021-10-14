@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { fetchData } from './../../redux/actions/importActions';
 import { NavPanel, Sidebar } from './../../components/importComponents';
 import { ContentPage, Cook, CookSession } from './../../pages/importPages';
 
@@ -17,6 +19,7 @@ const useStyles = makeStyles({
 });
 
 const Admin = () => {
+    const dispatch = useDispatch();
     const [visibleSidebar, setVisibleSidebar] = useState(false);
     const classes = useStyles();
 
@@ -27,6 +30,10 @@ const Admin = () => {
 
         setVisibleSidebar(open);
     };
+
+    useEffect(() => {
+        dispatch(fetchData());
+    }, []);
 
     return (
         <Box style={{height: '100vh', background: '#fff'}}>

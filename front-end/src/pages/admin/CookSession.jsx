@@ -38,12 +38,11 @@ const CookSession = ({ path }) => {
         toast[type](`🦄 ${message}`);
     };
     
-    const postItem = (formikValues) => {
-        console.log(formikValues.cookId)
-        axios.post(`/api/${getNewStr(path)}`, formikValues, {headers: {'Content-type': 'application/json'}})
+    const postItem = (cookId) => {
+        axios.post(`/api/CookSession`, {cookId}, {headers: {'Content-type': 'application/json'}})
             .then((resp) => {
-                getData(formikValues.cookId).then(resp => {
-                    const resFunc = switchRoutePath(getNewStr(path), resp.data, formikValues.cookId);
+                getData(cookId).then(resp => {
+                    const resFunc = switchRoutePath(getNewStr(path), resp.data, cookId);
                     dispatch(resFunc());
                 });
 
@@ -60,7 +59,7 @@ const CookSession = ({ path }) => {
                 const resFunc = switchRoutePath(getNewStr(path), data, cookId);
                 dispatch(resFunc());
 
-                notify('The get operation was successful', 'success');
+                notify('The put operation was successful', 'success');
             })
             .catch((err) => {
                 notify('Error put', 'error');
@@ -78,26 +77,12 @@ const CookSession = ({ path }) => {
                     {getNewStr(path)}
             </Typography>
             <Box sx={{display: 'flex'}}>
-            {
-                visibleFormPost ?
-                    <Form 
-                        postItem={postItem} 
-                        path={path}
-                        statusArray={statusArray}
-                        visibleFormPost={visibleFormPost}
-                    /> :
-                    <FormUpdate 
-                        // putItem={putItem} 
-                        putStatusId={putStatusId} 
-                        setVisibleFormPost={setVisibleFormPost}
-                        statusArray={statusArray}
-                        elemUpdate={elemUpdate}
-                    />
-            }
             <FormGet 
                 getElem="cookId"
                 statusArray={statusArray}
                 selectGetData={selectGetData}
+                postItem={postItem}
+                putDateTimeItem={putDateTimeItem}
             />
             </Box>
             <Table 

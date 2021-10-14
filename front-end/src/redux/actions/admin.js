@@ -44,8 +44,8 @@ const fetchData = (cookId) => {
             dispatch(setAllCook(cook));
             dispatch(setAllPost(fetchPost.data));
             
-            // cook.length && axios.get(`/api/CookSession/${cook[0].cookId}`)
-            cook.length && axios.get(`/api/CookSession/${cookId ? cookId : cook[0].cookId}`)
+
+            axios.get(`/api/CookSession/${cookId}`)
                 .then(({ data }) => {
                     const cookSession = joinArray(
                         data,
@@ -53,7 +53,6 @@ const fetchData = (cookId) => {
                         ['cook']
                     );
 
-                    console.log(cookSession);
                     dispatch(setAllCookSession(cookSession));
                 })
         })

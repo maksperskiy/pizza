@@ -6,11 +6,12 @@ import { switchAdminState, switchKeysWithoutId } from './../../functions/importF
 import { FormSelect, FormInput } from './../importComponents';
 
 const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
-    const { allCategories, allNames, allSizes, allTypes, allCookSession, allCook, allPost } = useSelector(({ admin }) => ({
+    const { allCategories, allNames, allSizes, allTypes, allPizzas, allCookSession, allCook, allPost } = useSelector(({ admin }) => ({
         allCategories: admin.categories,
         allNames: admin.names,
         allSizes: admin.sizes,
         allTypes: admin.types,
+        allPizzas: admin.pizzas,
 
         allCookSession: admin.cooksession,
         allCook: admin.cook,
@@ -29,7 +30,16 @@ const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
     }, {});
 
     const formRef = useRef();
+    const [inputDisabled, setInputDisabled] = React.useState(false);
+    const [inputPrice, setInputPrice] = React.useState('');
+    const [inputCategoryName, setInputCategoryName] = React.useState('');
 
+    const newFunc = (price, category) => {
+        setInputDisabled(true);
+        setInputPrice(price);
+        setInputCategoryName(category);
+    };
+    console.log(inputCategoryName);
     return (
         <div className="App">
             <Formik
@@ -43,7 +53,8 @@ const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
                         } else {
                             postItem(values);
                         }
-                        console.log(values);
+                        // console.log(values);
+                        setInputDisabled(false);
                         resetForm({values: ''});
                 }}
                 validate = {values => {
@@ -53,10 +64,29 @@ const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
                         if(key === 'visible' || key === 'cookStatus') {
                             return;
                         }
+                        if((inputDisabled && key === 'price') || (inputDisabled && key === 'categoryId')) {
+                            return;
+                        }
                         if(!values[key]) {
                             errors[key] = 'Required';
                         }
                     })
+                    
+                    const findArray = allPizzas.filter(item => item.name.nameId === values.nameId);
+                    setInputDisabled(false);
+                    if(path === 'pizzas' && findArray.length !== 0) {
+                        console.log(values);
+                        console.log(allPizzas);
+                        
+                        console.log(findArray.length && findArray[0].category.categoryId);
+                        values.price = findArray.length ? findArray[0].price : '';
+                        values.categoryId = findArray.length ? findArray[0].category.categoryId : '';
+                        findArray.length ? 
+                            newFunc(findArray[0].price, findArray[0].category.value)
+                            :
+                            setInputDisabled(false)
+                    }
+                    
                     console.log(errors);
                     return errors;
                 }}
@@ -76,8 +106,14 @@ const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
                                                 props={props}
                                                 stateItems={switchAdminState(key, allCategories, allNames, allSizes, allTypes, statusArray, /*allCookSession,*/ allCook, allPost)}
                                                 visibleFormPost={visibleFormPost}
+                                                inputDisabled={inputDisabled}
+                                                inputCategoryName={inputCategoryName}
                                             /> :
-                                            <FormInput keyValue={key} />
+                                            <FormInput 
+                                                keyValue={key} 
+                                                inputDisabled={inputDisabled} 
+                                                inputPrice={inputPrice}
+                                            />
                                     )
                                 }
                                 <Button 
@@ -97,4 +133,4 @@ const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
     );
 }
 
-export default Form;
+export default React.memo(Form);

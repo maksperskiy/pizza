@@ -3,13 +3,17 @@ import { useField } from 'formik';
 import { Checkbox, FormControlLabel, Input, Fab } from '@material-ui/core';
 import { Add as AddIcon } from '@material-ui/icons';
 
-const FormInput = ({ keyValue }) => {
+const FormInput = ({ keyValue, inputDisabled, inputPrice }) => {
     const InputTextField = ({ ...props }) => {
         const [field, meta, helpers] = useField(props);
         
         return (
             <>
-                <Input {...field} {...props} />
+                {
+                    inputDisabled ?
+                        <Input {...field} {...props} value={inputPrice} disabled /> :
+                        <Input {...field} {...props} />
+                }
             </>
         );
     };
