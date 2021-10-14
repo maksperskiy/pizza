@@ -5,4 +5,5 @@ export { default as PageNotFound } from './main/PageNotFound';
 
 export { default as Admin } from './admin/Admin';
 export { default as ContentPage } from './admin/ContentPage';
-export { default as Pizzas } from './admin/Pizzas';
+export { default as Cook } from './admin/Cook';
+export { default as CookSession } from './admin/CookSession';

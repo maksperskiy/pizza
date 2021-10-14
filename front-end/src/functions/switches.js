@@ -1,6 +1,6 @@
-import { setAllCategories, setAllNames, setAllSizes, setAllTypes, fetchData } from './../redux/actions/importActions';
+import { setAllCategories, setAllNames, setAllSizes, setAllTypes, setAllCook, setAllPost, fetchData } from './../redux/actions/importActions';
 
-const switchAdminState = (key, allCategories, allNames, allSizes, allTypes) => {
+const switchAdminState = (key, allCategories, allNames, allSizes, allTypes, statusArray, /*allCookSession,*/ allCook, allPost) => {
     switch(key) {
         case 'categoryId':
             return allCategories;
@@ -9,7 +9,18 @@ const switchAdminState = (key, allCategories, allNames, allSizes, allTypes) => {
         case 'sizeId':
             return allSizes;
         case 'typeId':
-            return allTypes;    
+            return allTypes;
+        
+        case 'cookStatus':
+            return statusArray;
+        // case 'cookId':
+        //     return allCookSession;
+        case 'cookId':
+            return allCook;
+        case 'post':
+            return allPost;
+        case 'postId':
+            return allPost; 
         default:
             break;
     }
@@ -27,12 +38,19 @@ const switchKeysWithoutId = (routePath) => {
             return ['value', 'name'];
         case 'types':
             return ['value'];
+        
+        case 'cooksession': 
+            return ['cookId'];
+        case 'cook':
+            return ['name', 'phone', 'postId', 'cookStatus'];
+        case 'post':
+            return ['value'];
         default:
             break;
     }
 };
 
-const switchRoutePath = (routePath, data) => {
+const switchRoutePath = (routePath, data, cookId) => {
     return () => {
         switch(routePath) {
             case 'Categories':
@@ -45,6 +63,14 @@ const switchRoutePath = (routePath, data) => {
                 return setAllSizes(data);
             case 'Types':
                 return setAllTypes(data);
+
+            case 'Cooksession':
+                return fetchData(cookId);
+            case 'Cook':
+                return fetchData();
+            //     return setAllCook(data);
+            case 'Post':
+                return setAllPost(data);
             default:
                 break;
         }

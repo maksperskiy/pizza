@@ -3,7 +3,11 @@ const defaultState = {
     names: [],
     pizzas: [],
     sizes: [],
-    types: []
+    types: [],
+
+    cooksession: [],
+    cook: [],
+    post: []
 };
 
 const admin = (state = defaultState, action) => {
@@ -18,6 +22,13 @@ const admin = (state = defaultState, action) => {
             return {...state, sizes: action.payload}  
         case 'SET_ALL_TYPES':
             return {...state, types: action.payload}  
+        
+        case 'SET_ALL_COOKSESSION':
+            return {...state, cooksession: action.payload}
+        case 'SET_ALL_COOK':
+            return {...state, cook: action.payload}
+        case 'SET_ALL_POST':
+            return {...state, post: action.payload}
         default:
             return state;
     }

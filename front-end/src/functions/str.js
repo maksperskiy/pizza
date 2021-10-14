@@ -5,8 +5,16 @@ const getNewStr = (str) => {
 const cutStr = (str, key) => {
     if(key.includes('Id')) {
         return str.slice(0, 8) + '...';
+    } else if(key === 'dateTimeStart' || key === 'dateTimeEnd') {
+        return str;
     }
     return str.length > 15 ? str.slice(0, 15) + '...' : str;
 }
 
-export { getNewStr, cutStr };
+const cleanTheDate = (dateStr) => {
+    return new Date(dateStr).toISOString().
+        replace(/T/, ' ').
+        replace(/\..+/, '')
+}
+
+export { getNewStr, cutStr, cleanTheDate };

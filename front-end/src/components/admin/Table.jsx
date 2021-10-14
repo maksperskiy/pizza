@@ -1,12 +1,9 @@
 import React from 'react';
 import { Table as TableMaterial, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Paper, styled, IconButton } from '@material-ui/core';
-import { Delete as DeleteIcon } from '@material-ui/icons';
-import { cutStr } from './../../functions/importFunctions';
+import { Delete as DeleteIcon, Edit as EditIcon, CheckCircle as CheckCircleIcon } from '@material-ui/icons';
+import { cutStr, cleanTheDate } from './../../functions/importFunctions';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses}`]: {
-        overflow: 'hidden'
-    },
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.common.black,
         color: theme.palette.common.white,
@@ -19,28 +16,23 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    'tr': {
-        position: 'relative'
-    },
-    'button': {
-        position: 'absolute',
-        right: 0
-    },
     '&:nth-of-type(odd)': {
         backgroundColor: theme.palette.action.hover,
         padding: 0
     },
     'td': {
-        border: 0
+        border: 0,
+        position: 'relative'
     },
-    'td: last-child': {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
+    'td button': {
+        position: 'absolute', 
+        marginLeft: '10px',
+        top: '50%', 
+        transform: 'translateY(-50%)'
+    }
 }));
 
-const Table = ({ itemsKeys, allItems, deleteItem }) => {
+const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStatusId, setElemUpdate, putDateTimeItem }) => {
     return (
         <>{
             allItems.length ? 
@@ -53,7 +45,10 @@ const Table = ({ itemsKeys, allItems, deleteItem }) => {
                                         <StyledTableCell>{key}</StyledTableCell>
                                     )
                                 }
-                                <StyledTableCell></StyledTableCell>
+                                {
+                                    !itemsKeys.includes('cookSessionId') ? 
+                                    <StyledTableCell sx={{width: '34px'}}></StyledTableCell> : ''
+                                }
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -64,24 +59,73 @@ const Table = ({ itemsKeys, allItems, deleteItem }) => {
                                             <>
                                                 {typeof item[key] === 'object' ?
                                                     <StyledTableCell>
-                                                        {cutStr(String(item[key]['value']), 'value')}
+                                                        {
+                                                            key === 'cook' ?
+                                                                cutStr(String(item[key]['name']), 'name') :
+                                                            key === 'dateTimeEnd' || key === 'dateTimeStart' ?
+                                                                cutStr(String(item[key]), key) :
+                                                                cutStr(String(item[key]['value']), 'value')
+                                                        }
+                                                        {key === 'post' ? 
+                                                            <IconButton
+                                                                size="small"
+                                                                edge="start"
+                                                                aria-label="edit"
+                                                                onClick={() => {
+                                                                    setPutStatusId(item.cookId);
+                                                                    setVisibleFormPost(false);
+                                                                    setElemUpdate(key);
+                                                                }}
+                                                            >
+                                                                <EditIcon />
+                                                            </IconButton> :
+                                                        key === 'dateTimeEnd' ?
+                                                            <IconButton
+                                                                size="small"
+                                                                edge="start"
+                                                                aria-label="edit"
+                                                                onClick={() => {
+                                                                    putDateTimeItem(item.cook.cookId)
+                                                                }}
+                                                            >
+                                                                <CheckCircleIcon />
+                                                            </IconButton>
+                                                            : ''}
                                                     </StyledTableCell> : 
                                                     <StyledTableCell>
                                                         {
-                                                            cutStr(String(item[key]), key)
+                                                            key === 'dateTimeEnd' || key === 'dateTimeStart' ?
+                                                                cleanTheDate(cutStr(String(item[key]), key)) :
+                                                                cutStr(String(item[key]), key)
                                                         }
+                                                        {key === 'cookStatus' ? 
+                                                            <IconButton
+                                                                size="small"
+                                                                edge="start"
+                                                                aria-label="edit"
+                                                                onClick={() => {
+                                                                    setPutStatusId(item.cookId);
+                                                                    setVisibleFormPost(false);
+                                                                    setElemUpdate(key);
+                                                                }}
+                                                            >
+                                                                <EditIcon />
+                                                            </IconButton> : ''}
                                                     </StyledTableCell>
                                                 }
                                             </>
                                         )}
-                                        <IconButton
-                                            size="small"
-                                            edge="start"
-                                            aria-label="home"
-                                            onClick={() => deleteItem(item[itemsKeys[0]])}
-                                        >
-                                            <DeleteIcon />
-                                        </IconButton>
+                                        {
+                                            !itemsKeys.includes('cookSessionId') ? 
+                                                <IconButton
+                                                    size="small"
+                                                    edge="start"
+                                                    aria-label="delete"
+                                                    onClick={() => deleteItem(item[itemsKeys[0]])}
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton> : ''
+                                        }
                                     </StyledTableRow>
                                 )
                             }

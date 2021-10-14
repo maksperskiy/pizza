@@ -13,4 +13,6 @@ export { default as Form } from './admin/Form';
 export { default as Table } from './admin/Table';
 export { default as FormSelect } from './admin/FormSelect';
 export { default as FormInput } from './admin/FormInput';
+export { default as FormUpdate } from './admin/FormUpdate';
+export { default as FormGet } from './admin/FormGet';
 
