@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { NavPanel, Sidebar } from './../../components/importComponents';
-import { ContentPage, Pizzas } from './../../pages/importPages';
+import { ContentPage, Cook, CookSession } from './../../pages/importPages';
 
 const useStyles = makeStyles({
     intro: {
@@ -42,16 +42,18 @@ const Admin = () => {
                         {path: 'sizes', component: ContentPage},
                         {path: 'types', component: ContentPage},
                         
-                        {path: 'cook', component: ContentPage},
                         {path: 'post', component: ContentPage}
                     ].map(({ path, component }) => 
                         <Route key={path} path={`/admin/${path}`}>
                             <ContentPage path={path} />
                         </Route>)
                 }
-                {/* <Route path={`/admin/pizzas`}>
-                        <Pizzas path="pizzas" />
-                </Route> */}
+                <Route path={`/admin/cooksession`}>
+                        <CookSession path="cooksession" />
+                </Route>
+                <Route path={`/admin/cook`}>
+                        <Cook path="cook" />
+                </Route>
                 <Route path="/*" exact component={() => <Typography variant="h2" component="h1" className={classes.intro}>Добро пожаловать<br/> в админку сайта Pizza Shop</Typography>} />
             </Switch>
         </Box>

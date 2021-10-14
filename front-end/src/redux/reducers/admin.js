@@ -5,6 +5,7 @@ const defaultState = {
     sizes: [],
     types: [],
 
+    cooksession: [],
     cook: [],
     post: []
 };
@@ -22,6 +23,8 @@ const admin = (state = defaultState, action) => {
         case 'SET_ALL_TYPES':
             return {...state, types: action.payload}  
         
+        case 'SET_ALL_COOKSESSION':
+            return {...state, cooksession: action.payload}
         case 'SET_ALL_COOK':
             return {...state, cook: action.payload}
         case 'SET_ALL_POST':

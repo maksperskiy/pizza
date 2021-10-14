@@ -7,10 +7,11 @@ const setAllPizzas = (allPizzas) => ({type: 'SET_ALL_PIZZAS', payload: allPizzas
 const setAllSizes = (AllSizes) => ({type: 'SET_ALL_SIZES', payload: AllSizes});
 const setAllTypes = (allTypes) => ({type: 'SET_ALL_TYPES', payload: allTypes});
 
+const setAllCookSession = (allCookSession) => ({type: 'SET_ALL_COOKSESSION', payload: allCookSession});
 const setAllCook = (allCook) => ({type: 'SET_ALL_COOK', payload: allCook});
 const setAllPost = (allPost) => ({type: 'SET_ALL_POST', payload: allPost});
 
-const fetchData = () => {
+const fetchData = (cookId) => {
     return (dispatch) => {
         Promise.all([
             axios.get('/api/Categories'),
@@ -19,11 +20,10 @@ const fetchData = () => {
             axios.get('/api/Sizes'),
             axios.get('/api/Types'),
 
-            // axios.get('/api/CookSession/58dec6fb-9dee-48d3-b9ba-a8933349b9f9'),
             axios.get('/api/Cook'),
             axios.get('/api/Post')
         ])
-        .then(([fetchCategories, fetchNames, fetchPizzas, fetchSizes, fetchTypes, /*fetchCookSession*/, fetchCook, fetchPost]) => {
+        .then(([fetchCategories, fetchNames, fetchPizzas, fetchSizes, fetchTypes, fetchCook, fetchPost]) => {
             const pizzas = joinArray(
                 fetchPizzas.data, 
                 [fetchCategories.data, fetchNames.data, fetchSizes.data, fetchTypes.data],
@@ -41,11 +41,23 @@ const fetchData = () => {
                 [fetchPost.data],
                 ['post']
             );
-            // console.log(fetchCookSession.data);
             dispatch(setAllCook(cook));
             dispatch(setAllPost(fetchPost.data));
+            
+            // cook.length && axios.get(`/api/CookSession/${cook[0].cookId}`)
+            cook.length && axios.get(`/api/CookSession/${cookId ? cookId : cook[0].cookId}`)
+                .then(({ data }) => {
+                    const cookSession = joinArray(
+                        data,
+                        [fetchCook.data],
+                        ['cook']
+                    );
+
+                    console.log(cookSession);
+                    dispatch(setAllCookSession(cookSession));
+                })
         })
     }
 };
 
-export { setAllCategories, setAllNames, setAllPizzas, setAllSizes, setAllTypes , setAllCook, setAllPost, fetchData };
+export { setAllCategories, setAllNames, setAllPizzas, setAllSizes, setAllTypes, setAllCookSession, setAllCook, setAllPost, fetchData };

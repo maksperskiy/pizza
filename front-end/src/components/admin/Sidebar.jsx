@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 const sidebarItems = [
     {folderName: 'Pizzas', folderItems: ['Categories', 'Names', 'Pizzas', 'Sizes', 'Types']},
     {folderName: 'Orders', folderItems: ['OrderUnit', 'Order', 'Customer', 'Promo']},
-    {folderName: 'Cooks', folderItems: ['CookSession', 'Cook', 'Post']},
+    {folderName: 'Cooks', folderItems: ['Cooksession', 'Cook', 'Post']},
 ];
 
 const Sidebar = ({ visibleSidebar, toggleDrawer }) => {

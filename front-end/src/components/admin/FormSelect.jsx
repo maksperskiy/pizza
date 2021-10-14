@@ -5,28 +5,35 @@ const FormSelect = ({ keyValue, props, stateItems }) => {
     return (
         <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <NativeSelect
-                defaultValue={'none'}
+                defaultValue={'Pending'}
                 inputProps={{
                     name: keyValue,
                     id: keyValue,
                 }}
                 value={props.values[keyValue]}
                 onChange={props.handleChange}
+                disabled={keyValue === 'cookStatus' ? true : false}
             >
                 <option
-                    key='none'
-                    value='none'
+                    value=''
                 >
-                    none
+                    {keyValue === 'cookStatus' ? 'Pending' : 'none'}
                 </option>
                 {
-                    stateItems.map((item) => (
-                        <option
-                            key={item[keyValue]}
-                            value={item[keyValue]}
-                        >
-                            {item['value']}
-                        </option>
+                    stateItems.map((item, index) => (
+                        typeof item === 'object' ?
+                            <option
+                                key={item[keyValue]}
+                                value={item[keyValue]}
+                            >
+                                {item.hasOwnProperty('value') ? item['value'] : item['name'] }
+                            </option> :
+                            <option
+                                key={item}
+                                value={index}
+                            >
+                                {item}
+                            </option>
                     ))
                 }
             </NativeSelect>

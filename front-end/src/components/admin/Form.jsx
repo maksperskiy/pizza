@@ -5,13 +5,14 @@ import { Box, Button } from '@material-ui/core';
 import { switchAdminState, switchKeysWithoutId } from './../../functions/importFunctions';
 import { FormSelect, FormInput } from './../importComponents';
 
-const Form = ({ postItem, path }) => {
-    const { allCategories, allNames, allSizes, allTypes, allCook, allPost } = useSelector(({ admin }) => ({
+const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
+    const { allCategories, allNames, allSizes, allTypes, allCookSession, allCook, allPost } = useSelector(({ admin }) => ({
         allCategories: admin.categories,
         allNames: admin.names,
         allSizes: admin.sizes,
         allTypes: admin.types,
 
+        allCookSession: admin.cooksession,
         allCook: admin.cook,
         allPost: admin.post
     }));
@@ -49,7 +50,7 @@ const Form = ({ postItem, path }) => {
                     const errors = {};
                     
                     keysWithoutId.map(key => {
-                        if(key === 'visible') {
+                        if(key === 'visible' || key === 'cookStatus') {
                             return;
                         }
                         if(!values[key]) {
@@ -69,11 +70,12 @@ const Form = ({ postItem, path }) => {
                             >
                                 {
                                     keysWithoutId && keysWithoutId.map(key => 
-                                        key.includes('Id') ?
+                                        key.includes('Id') || key === 'cookStatus' ?
                                             <FormSelect
                                                 keyValue={key}
                                                 props={props}
-                                                stateItems={switchAdminState(key, allCategories, allNames, allSizes, allTypes, allCook, allPost)}
+                                                stateItems={switchAdminState(key, allCategories, allNames, allSizes, allTypes, statusArray, /*allCookSession,*/ allCook, allPost)}
+                                                visibleFormPost={visibleFormPost}
                                             /> :
                                             <FormInput keyValue={key} />
                                     )
