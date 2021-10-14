@@ -42,7 +42,7 @@ namespace pizza.Web.Services.Cook
         public async Task Remove(Guid Id)
         {
             var cook = await _context.Cook.FindAsync(Id);
-            _context.Cook.Remove(cook);
+            cook.CookStatus = Data.Enums.Status.Closed;
             await _context.SaveChangesAsync();
         }
 
