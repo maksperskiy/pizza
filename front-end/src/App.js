@@ -2,11 +2,15 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import { ThemeProvider } from '@material-ui/styles';
+import { createTheme } from '@material-ui/core';
 import { Main, Admin } from './pages/importPages';
 
 const App = () => {
+    let theme = createTheme();
+
     return (
-        <>
+        <ThemeProvider theme={theme}>
             <Router>
                 <Switch>
                     <Route path="/app" component={Main} />
@@ -27,7 +31,7 @@ const App = () => {
                 pauseOnHover={false}
                 theme="dark"
             />
-        </>
+        </ThemeProvider>
     )
 }
 

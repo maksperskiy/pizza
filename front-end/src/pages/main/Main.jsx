@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 import { fetchPizzas, fetchData } from './../../redux/actions/importActions';
 import { Header } from './../../components/importComponents';
-import { Home, Cart, PageNotFound } from './../../pages/importPages';
+import { Home, Cart, OrderMain, PageNotFound } from './../../pages/importPages';
 
 
 function Main() {
@@ -21,10 +21,13 @@ function Main() {
         totalPrice: cart.totalPrice,
         totalPizzas: cart.totalPizzas
     }));
+    localStorage.setItem('items', JSON.stringify(items));
+    localStorage.setItem('totalPrice', totalPrice);
+    localStorage.setItem('totalPizzas', totalPizzas);
 
-    useEffect(() => {
-        dispatch(fetchData());
-    }, []);
+    // useEffect(() => {
+    //     dispatch(fetchData());
+    // }, []);
 
     useEffect(() => {
         dispatch(fetchPizzas(activeCategorie, activeSortBy));
@@ -46,6 +49,13 @@ function Main() {
                     </Route>
                     <Route path={`${path}/cart`}>
                         <Cart 
+                            items={items} 
+                            totalPrice={totalPrice} 
+                            totalPizzas={totalPizzas} 
+                        />
+                    </Route>
+                    <Route path={`${path}/order`}>
+                        <OrderMain
                             items={items} 
                             totalPrice={totalPrice} 
                             totalPizzas={totalPizzas} 

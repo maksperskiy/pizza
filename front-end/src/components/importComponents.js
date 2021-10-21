@@ -5,6 +5,7 @@ export { default as SortPopup } from './main/SortPopup';
 export { default as PizzaBlock } from './main/PizzaBlock';
 export { default as PizzaLoader } from './main/PizzaLoader';
 export { default as CartItem } from './main/CartItem';
+export { default as OrderForm } from './main/OrderForm';
 
 export { default as NavPanel } from './admin/NavPanel';
 export { default as Sidebar } from './admin/Sidebar';

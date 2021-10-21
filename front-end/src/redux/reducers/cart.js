@@ -1,7 +1,7 @@
 const defaultState = {
-    items: {},
-    totalPrice: 0,
-    totalPizzas: 0
+    items: JSON.parse(localStorage.getItem('items')) || {},
+    totalPrice: localStorage.getItem('totalPrice') || 0,
+    totalPizzas: localStorage.getItem('totalPizzas') || 0
 };
 
 const cart = (state = defaultState, action) => {

@@ -15,7 +15,7 @@ const Cart = ({ items, totalPrice, totalPizzas }) => {
             dispatch(clearCart());
         }
     };
-    
+
     return (
         <div className="container container--cart">
             {
@@ -133,9 +133,9 @@ const Cart = ({ items, totalPrice, totalPizzas }) => {
                                         <span>На главную</span>
                                     </Button>
                                 </Link>
-                                <Link to="/cart">
+                                <Link to="/app/order">
                                     <Button pay>
-                                        <span>Оплатить сейчас</span>
+                                        <span>Оформить заказ</span>
                                     </Button>
                                 </Link>
                             </div>

@@ -2,9 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Typography } from '@material-ui/core';
+import { toast } from "react-toastify";
 import { Form, Table } from './../../components/importComponents';
 import { getNewStr, switchRoutePath } from './../../functions/importFunctions';
-import { toast } from "react-toastify";
 
 const ContentPage = ({ path }) => {
     const dispatch = useDispatch();

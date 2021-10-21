@@ -2,16 +2,29 @@ import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Formik, Form as ContentForm } from 'formik';
 import { Box, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import { switchAdminState, switchKeysWithoutId } from './../../functions/importFunctions';
 import { FormSelect, FormInput } from './../importComponents';
 
+const useStyles = makeStyles((theme) => ({
+    button: {
+        backgroundColor: `#8aabff !important`,
+        '&:hover': {
+            backgroundColor: '#5190cf !important',
+        }
+    }
+}));
+
 const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
-    const { allCategories, allNames, allSizes, allTypes, allPizzas, allCookSession, allCook, allPost } = useSelector(({ admin }) => ({
+    const classes = useStyles();
+    const { allCategories, allNames, allSizes, allTypes, allPizzas, allCustomers, allCookSession, allCook, allPost } = useSelector(({ admin }) => ({
         allCategories: admin.categories,
         allNames: admin.names,
         allSizes: admin.sizes,
         allTypes: admin.types,
         allPizzas: admin.pizzas,
+
+        allCustomers: admin.customers,
 
         allCookSession: admin.cooksession,
         allCook: admin.cook,
@@ -39,7 +52,7 @@ const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
         setInputPrice(price);
         setInputCategoryName(category);
     };
-    console.log(inputCategoryName);
+
     return (
         <div className="App">
             <Formik
@@ -104,7 +117,7 @@ const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
                                             <FormSelect
                                                 keyValue={key}
                                                 props={props}
-                                                stateItems={switchAdminState(key, allCategories, allNames, allSizes, allTypes, statusArray, /*allCookSession,*/ allCook, allPost)}
+                                                stateItems={switchAdminState(key, allCategories, allNames, allSizes, allTypes, allCustomers, statusArray, allCook, allPost)}
                                                 visibleFormPost={visibleFormPost}
                                                 inputDisabled={inputDisabled}
                                                 inputCategoryName={inputCategoryName}
@@ -121,6 +134,7 @@ const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
                                     size="medium"
                                     type="submit" 
                                     onClick={props.handleSubmit}
+                                    className={classes.button}
                                 >
                                     Добавить
                                 </Button>

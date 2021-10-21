@@ -1,6 +1,6 @@
-import { setAllCategories, setAllNames, setAllSizes, setAllTypes, setAllCook, setAllPost, fetchData } from './../redux/actions/importActions';
+import { setAllCategories, setAllNames, setAllSizes, setAllTypes, setCurCustomer, setAllPromo, setAllCookSession, setAllPost, fetchData } from './../redux/actions/importActions';
 
-const switchAdminState = (key, allCategories, allNames, allSizes, allTypes, statusArray, /*allCookSession,*/ allCook, allPost) => {
+const switchAdminState = (key, allCategories, allNames, allSizes, allTypes, allCustomers, statusArray, allCook, allPost) => {
     switch(key) {
         case 'categoryId':
             return allCategories;
@@ -10,11 +10,14 @@ const switchAdminState = (key, allCategories, allNames, allSizes, allTypes, stat
             return allSizes;
         case 'typeId':
             return allTypes;
-        
+
+        case 'cookSession':
+            return allCook.filter(cook => cook.cookStatus === 'InProgress');
+        case 'customerId':
+            return allCustomers;
+
         case 'cookStatus':
             return statusArray;
-        // case 'cookId':
-        //     return allCookSession;
         case 'cookId':
             return allCook;
         case 'post':
@@ -39,6 +42,9 @@ const switchKeysWithoutId = (routePath) => {
         case 'types':
             return ['value'];
         
+        case 'promo':
+            return ['value', 'promoCode'];
+
         case 'cooksession': 
             return ['cookId'];
         case 'cook':
@@ -64,11 +70,17 @@ const switchRoutePath = (routePath, data, cookId) => {
             case 'Types':
                 return setAllTypes(data);
 
+            case 'CookSession':
+                return fetchData();
+            case 'Customers':
+                return setCurCustomer(data);
+            case 'Promo':
+                return setAllPromo(data);
+
             case 'Cooksession':
                 return fetchData(cookId);
             case 'Cook':
                 return fetchData();
-            //     return setAllCook(data);
             case 'Post':
                 return setAllPost(data);
             default:

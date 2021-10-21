@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 
 const sidebarItems = [
     {folderName: 'Pizzas', folderItems: ['Categories', 'Names', 'Pizzas', 'Sizes', 'Types']},
-    {folderName: 'Orders', folderItems: ['OrderUnit', 'Order', 'Customer', 'Promo']},
+    {folderName: 'Orders', folderItems: ['Order', 'Customers', 'Promo']},
     {folderName: 'Cooks', folderItems: ['Cooksession', 'Cook', 'Post']},
 ];
 

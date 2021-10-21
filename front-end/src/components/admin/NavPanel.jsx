@@ -6,7 +6,8 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
     root: {
-        color: '#fff'
+        color: '#fff',
+        backgroundColor: '#8aabff !important'
     },
     svg: {
         color: '#fff'

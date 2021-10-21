@@ -5,6 +5,11 @@ const defaultState = {
     sizes: [],
     types: [],
 
+    customers: [],
+    curCustomer: [],
+    order: [],
+    promo: [],
+
     cooksession: [],
     cook: [],
     post: []
@@ -21,8 +26,17 @@ const admin = (state = defaultState, action) => {
         case 'SET_ALL_SIZES':
             return {...state, sizes: action.payload}  
         case 'SET_ALL_TYPES':
-            return {...state, types: action.payload}  
+            return {...state, types: action.payload}
         
+        case 'SET_ALL_CUSTOMERS':
+            return {...state, customers: action.payload}
+        case 'SET_CUR_CUSTOMER':
+            return {...state, curCustomer: action.payload}
+        case 'SET_ALL_ORDER':
+            return {...state, order: action.payload}
+        case 'SET_ALL_PROMO':
+            return {...state, promo: action.payload}
+
         case 'SET_ALL_COOKSESSION':
             return {...state, cooksession: action.payload}
         case 'SET_ALL_COOK':
