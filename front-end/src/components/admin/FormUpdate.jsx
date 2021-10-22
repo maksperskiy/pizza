@@ -34,9 +34,9 @@ const FormUpdate = ({ putItem, putStatusId, setVisibleFormPost, allCustomers, st
 
     const [activeSelectItem, setActiveSelectItem] = React.useState(
         elemUpdate === 'post' ? 
-            optionItems[0]['postId'] : 
+            optionItems.length && optionItems[0]['postId'] : 
         elemUpdate === 'cookSession' ?
-            optionItems[0]['cookId'] :  
+            optionItems.length && optionItems[0]['cookId'] :  
             ''
     );
     console.log(activeSelectItem)

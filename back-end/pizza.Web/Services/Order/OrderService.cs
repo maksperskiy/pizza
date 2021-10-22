@@ -92,7 +92,7 @@ namespace pizza.Web.Services.Order
                     Promo = order.Promo,
                     Pizzas = pizzas,
                     Status = order.OrderStatus,
-                    Price = _context.OrderUnit.Include(x => x.Pizza).Where(x => x.OrderId == order.OrderId).Select(x => x.Pizza.Price).Sum() * (1 - (decimal)order.Promo.Value/100)
+                    Price = _context.OrderUnit.Include(x => x.Pizza).Where(x => x.OrderId == order.OrderId).Select(x => x.Pizza.Price).Sum() * (1 - ((order.Promo == null) ? 0 : (decimal)order.Promo.Value)/100)
                 };
 
                 orders.Add(orderModel);

@@ -51,7 +51,7 @@ const Cook = ({ path }) => {
                     dispatch(resFunc());
                 });
 
-                notify('The delete operation was successful', 'success');
+                path === 'cook' && notify('The put operation was successful', 'success');
             })
             .catch((err) => {
                 notify('Error delete', 'error');

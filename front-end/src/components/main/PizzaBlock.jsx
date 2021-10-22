@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
 import { toast } from "react-toastify";
@@ -13,6 +13,9 @@ const PizzaBlock = ({ pizzaId, name, types, sizes, price }) => {
     }));
     const dispatch = useDispatch();
 
+    const itemCount = [].concat.apply([], Object.values(items).map(obj => obj.items)).filter(pizza => pizza.name === name.value).length;
+
+    // console.log(Object.values(items).map(item => item.items));
     const [activeType, setActiveType] = useState(allTypes.findIndex(type => type.typeId === types[0].typeId));
     // const [activeSize, setActiveSize] = useState(allSizes.findIndex(size => size.sizeId === sizes[0].sizeId));
     const [activeSize, setActiveSize] = useState(allSizes.findIndex(size => size.sizeId === sizes[0].sizeId));
@@ -30,14 +33,24 @@ const PizzaBlock = ({ pizzaId, name, types, sizes, price }) => {
 
     const newSizes = allPizzas.filter(pizza => pizza.name.value === name.value)
         .filter(pizza => pizza.type.value === allTypes[activeType].value)
-        .map(pizza => pizza.size);
-        
+        .map(pizza => pizza.size)
+        .sort((prev, next) => {
+            if(prev.value < next.value) {
+                return -1;
+            }
+        });
+
+    useEffect(() => {
+        console.log(newSizes);
+        const firstSize = allSizes.find(size => size.sizeId === newSizes[0].sizeId);
+        const firstSizeIndex = allSizes.findIndex(size => size.value === firstSize.value);
+        console.log(firstSize);
+        console.log(firstSizeIndex);
+        setActiveSize(firstSizeIndex);
+    }, [activeType]);
+    
     const onSelectType = index => {
         setActiveType(index);
-        // console.log(newSizes);
-        console.log(newSizes);
-        setActiveSize(allSizes.findIndex(size => size.sizeId === newSizes[0].sizeId));
-        // console.log(allSizes.findIndex(size => size.sizeId === newSizes[0].sizeId));
     };
 
     const onSelectSize = index => {
@@ -118,7 +131,7 @@ const PizzaBlock = ({ pizzaId, name, types, sizes, price }) => {
                         />
                     </svg>
                     <span>Добавить</span>
-                    <i>{items[pizzaId] ? items[pizzaId].items.length : 0}</i>
+                    <i>{itemCount ? itemCount : 0}</i>
                 </button>
             </div>
         </div>

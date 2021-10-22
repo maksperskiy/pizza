@@ -98,7 +98,21 @@ const Order = ({ path }) => {
                 notify('Error put', 'error');
             })
         console.log(id);
-    }
+    };
+
+    const putItemStatus = (id, status) => {
+        console.log(id, status);
+        axios.put(`/api/Order/${id}/status`, {status})
+            .then(resp => {
+                const resFunc = switchRoutePath(getNewStr('CookSession'), resp.data);
+                dispatch(resFunc());
+                
+                notify('The put operation was successful', 'success');
+            })
+            .catch((err) => {
+                notify('Error put', 'error');
+            })
+    };
 
     return (
         <Box p={4}>
@@ -142,6 +156,7 @@ const Order = ({ path }) => {
                 setPutStatusId={setPutStatusId}
                 setElemUpdate={setElemUpdate}
                 path={path}
+                putItemStatus={putItemStatus}
             />
         </Box>
     )

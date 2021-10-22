@@ -21,7 +21,12 @@ const fetchPizzas = (activeCategorie, activeSortBy) => {
             axios.get('/api/Pizzas/all')
         ])
         .then(([fetchCategories, fetchNames, fetchPizzas, fetchSizes, fetchTypes, fetchAllPizzas]) => {
-            dispatch(setAllSizes(fetchSizes.data));
+            const sortSize = [...fetchSizes.data.sort((prev, next) => {
+                if(prev.value < next.value) {
+                    return -1;
+                }
+            })];
+            dispatch(setAllSizes(sortSize));
             dispatch(setAllTypes(fetchTypes.data));
             const pizzasAll = joinArray(
                 fetchAllPizzas.data, 

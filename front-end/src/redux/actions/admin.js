@@ -38,11 +38,18 @@ const fetchData = (cookId) => {
                 [fetchCategories.data, fetchNames.data, fetchSizes.data, fetchTypes.data],
                 ['category', 'name', 'size', 'type']
             );
-            console.log(fetchOrder.data);
+
+            const sortSize = [...fetchSizes.data.sort((prev, next) => {
+                if(prev.value < next.value) {
+                    return -1;
+                }
+            })];
+
             dispatch(setAllCategories(fetchCategories.data));
             dispatch(setAllNames(fetchNames.data));
             dispatch(setAllPizzas(pizzas));
-            dispatch(setAllSizes(fetchSizes.data));
+            // dispatch(setAllSizes(fetchSizes.data));
+            dispatch(setAllSizes(sortSize));
             dispatch(setAllTypes(fetchTypes.data));
 
             dispatch(setAllCustomers(fetchCustomers.data));
@@ -78,8 +85,9 @@ const fetchData = (cookId) => {
             axios.get(`/api/CookSession/${
                 cookId ? 
                     cookId : 
-                localStorage.getItem('cook') ? localStorage.getItem('cook') :
-                    cook[0].cookId
+                    localStorage.getItem('cook') ? localStorage.getItem('cook') :
+                        cook.length && cook[0].cookId
+                        // ''
             }`)
                 .then(({ data }) => {
                     const cookSession = joinArray(

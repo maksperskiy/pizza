@@ -5,7 +5,7 @@ const getNewStr = (str) => {
 const cutStr = (str, key) => {
     if(key.includes('Id')) {
         return str.slice(0, 8) + '...';
-    } else if(key === 'dateTimeStart' || key === 'dateTimeEnd') {
+    } else if(key === 'dateTimeStart' || key === 'dateTimeEnd' || key === 'name' || key === 'value') {
         return str;
     }
     return str.length > 15 ? str.slice(0, 15) + '...' : str;

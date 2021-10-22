@@ -58,8 +58,8 @@ const BasicFormSchema = Yup.object().shape({
             /^(\+375)(29|25|44|33)(\d{3})(\d{2})(\d{2})$/,
             "Формат +375(29|25|44|33)9999999"
         ),
-    promo: Yup.string()
-        .required('Обязательное')
+    // promo: Yup.string()
+    //     .required('Обязательное')
 });
 
 const arrayFields = ['name', 'mail', 'address', 'phone', 'promo'];
@@ -81,6 +81,13 @@ const OrderForm = ({ items, totalPrice, totalPizzas, orderPost }) => {
                 validationSchema={BasicFormSchema}
                 onSubmit={(values, { resetForm }) => {
                     values.pizzas = [...Object.keys(items)];
+                    if(values['promo']) {
+                        values = {...values};
+                    } else {
+                        // delete values['promo'];
+                        const {promo, ...newValues} = values;
+                        values = {...newValues};
+                    }   
                     orderPost(values);
                     resetForm({values: ''});
                 }}
