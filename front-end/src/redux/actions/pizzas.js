@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { joinArray, concatArrays, filter, sort } from './../../functions/pizzas';
+import { setAllSizes, setAllTypes, setAllPizzas } from './importActions';
 
 const setPizzas = (pizzas) => ({type: 'SET_PIZZAS', payload: pizzas});
 const setLoaded = (flag) => ({type: 'SET_LOADED', payload: flag});
@@ -16,9 +17,24 @@ const fetchPizzas = (activeCategorie, activeSortBy) => {
             axios.get('/api/Names'),
             axios.get('/api/Pizzas'),
             axios.get('/api/Sizes'),
-            axios.get('/api/Types')
+            axios.get('/api/Types'),
+            axios.get('/api/Pizzas/all')
         ])
-        .then(([fetchCategories, fetchNames, fetchPizzas, fetchSizes, fetchTypes]) => {
+        .then(([fetchCategories, fetchNames, fetchPizzas, fetchSizes, fetchTypes, fetchAllPizzas]) => {
+            const sortSize = [...fetchSizes.data.sort((prev, next) => {
+                if(prev.value < next.value) {
+                    return -1;
+                }
+            })];
+            dispatch(setAllSizes(sortSize));
+            dispatch(setAllTypes(fetchTypes.data));
+            const pizzasAll = joinArray(
+                fetchAllPizzas.data, 
+                [fetchCategories.data, fetchNames.data, fetchSizes.data, fetchTypes.data],
+                ['category', 'name', 'size', 'type']
+            );
+            dispatch(setAllPizzas(pizzasAll));
+
             const pizzas = joinArray(
                 fetchPizzas.data, 
                 [fetchCategories.data, fetchNames.data, fetchSizes.data, fetchTypes.data],

@@ -1,9 +1,20 @@
 import React from 'react';
 import { useField } from 'formik';
 import { Checkbox, FormControlLabel, Input, Fab } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import { Add as AddIcon } from '@material-ui/icons';
 
+const useStyles = makeStyles((theme) => ({
+    fab: {
+        backgroundColor: `#bf6bcd !important`,
+        '&:hover': {
+            backgroundColor: '#b243c5 !important',
+        }
+    }
+}));
+
 const FormInput = ({ keyValue, inputDisabled, inputPrice }) => {
+    const classes = useStyles();
     const InputTextField = ({ ...props }) => {
         const [field, meta, helpers] = useField(props);
         
@@ -11,8 +22,8 @@ const FormInput = ({ keyValue, inputDisabled, inputPrice }) => {
             <>
                 {
                     inputDisabled ?
-                        <Input {...field} {...props} value={inputPrice} disabled /> :
-                        <Input {...field} {...props} />
+                        <Input {...field} {...props} value={inputPrice} disabled sx={{marginRight: '20px'}} /> :
+                        <Input {...field} {...props} sx={{marginRight: '20px'}} />
                 }
             </>
         );
@@ -23,7 +34,7 @@ const FormInput = ({ keyValue, inputDisabled, inputPrice }) => {
 
         return (
             <>
-                <FormControlLabel control={<Checkbox {...field} {...props} />} label={props.name} />
+                <FormControlLabel control={<Checkbox {...field} {...props} />} label={props.name} sx={{marginRight: '20px'}} />
             </>
         );
     };
@@ -39,6 +50,8 @@ const FormInput = ({ keyValue, inputDisabled, inputPrice }) => {
                     size="small"
                     component="span"
                     variant="extended"
+                    className={classes.fab}
+                    sx={{marginRight: '20px'}}
                 >
                     <AddIcon /> Upload photo
                 </Fab>

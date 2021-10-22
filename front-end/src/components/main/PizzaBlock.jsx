@@ -1,54 +1,80 @@
-import React, { useState } from 'react';
-import { /*useDispatch,*/ useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
-// import { addPizzaToCart } from './../../redux/actions/importActions';
+import { toast } from "react-toastify";
+import { addPizzaToCart } from './../../redux/actions/importActions';
 
-const PizzaBlock = (/*{ id, imageUrl, name, types, sizes, price }*/{pizzaId, name, types, sizes, price }) => {
-    const { allSizes, allTypes } = useSelector(({ admin }) => ({
+const PizzaBlock = ({ pizzaId, name, types, sizes, price }) => {
+    const { allSizes, allTypes, allPizzas, items } = useSelector(({ admin, cart }) => ({
         allSizes: admin.sizes,
-        allTypes: admin.types
+        allTypes: admin.types,
+        allPizzas: admin.pizzas,
+        items: cart.items,
     }));
-    // const dispatch = useDispatch();
-    // const typesArray = ['Тонкое', 'Традиционное'];
-    // const sizesArray = [26, 30, 40];
-    // const [activeType, setActiveType] = useState(
-    //     JSON.parse(sessionStorage.getItem(`activeType=${pizzaId}`)) || types[0]
-    // );
-    const [activeType, setActiveType] = useState(allTypes.findIndex(type => type.typeId === types[0].typeId));
-    // const [activeSize, setActiveSize] = useState(
-    //     JSON.parse(sessionStorage.getItem(`activeSize=${pizzaId}`)) || sizesArray.findIndex(size => size === sizes[0])
-    // );
-    const [activeSize, setActiveSize] = useState(allSizes.findIndex(size => size.sizeId === sizes[0].sizeId));
-    // console.log(sizes);
-    // const { items } = useSelector(({ cart } )=> ({
-    //     items: cart.items
-    // }));
+    const dispatch = useDispatch();
 
-    // const onSelectType = index => {
-    //     setActiveType(index);
-    //     sessionStorage.setItem(`activeType=${pizzaId}`, index);
-    // };
+    const itemCount = [].concat.apply([], Object.values(items).map(obj => obj.items)).filter(pizza => pizza.name === name.value).length;
+
+    // console.log(Object.values(items).map(item => item.items));
+    const [activeType, setActiveType] = useState(allTypes.findIndex(type => type.typeId === types[0].typeId));
+    // const [activeSize, setActiveSize] = useState(allSizes.findIndex(size => size.sizeId === sizes[0].sizeId));
+    const [activeSize, setActiveSize] = useState(allSizes.findIndex(size => size.sizeId === sizes[0].sizeId));
+
+    const activePizzas = allPizzas.filter(pizza => pizza.name.value === name.value)
+                                .filter(pizza => pizza.type.value === allTypes[activeType].value)
+                                .filter(pizza => pizza.size.value === allSizes[activeSize].value);
+
+    const activePizza = activePizzas.filter((pizza, index) => {
+        const curPizza = pizza.size.value;
+        return index === activePizzas.findIndex(pizzaObj => {
+            return pizzaObj.size.value === curPizza;
+        });
+    });
+
+    const newSizes = allPizzas.filter(pizza => pizza.name.value === name.value)
+        .filter(pizza => pizza.type.value === allTypes[activeType].value)
+        .map(pizza => pizza.size)
+        .sort((prev, next) => {
+            if(prev.value < next.value) {
+                return -1;
+            }
+        });
+
+    useEffect(() => {
+        console.log(newSizes);
+        const firstSize = allSizes.find(size => size.sizeId === newSizes[0].sizeId);
+        const firstSizeIndex = allSizes.findIndex(size => size.value === firstSize.value);
+        console.log(firstSize);
+        console.log(firstSizeIndex);
+        setActiveSize(firstSizeIndex);
+    }, [activeType]);
+    
     const onSelectType = index => {
         setActiveType(index);
     };
-    // const onSelectSize = index => {
-    //     setActiveSize(index);
-    //     sessionStorage.setItem(`activeSize=${pizzaId}`, index);
-    // };
+
     const onSelectSize = index => {
         setActiveSize(index);
     };
-    // const onAddPizzaToCart = () => {
-    //     dispatch(addPizzaToCart({
-    //         pizzaId,
-    //         imageUrl,
-    //         name,
-    //         type: typesArray[activeType],
-    //         size: sizesArray[activeSize],
-    //         price
-    //     }))
-    // }
 
+    const onAddPizzaToCart = () => {
+        const pizzaObj = activePizza.length && {
+            id: activePizza[0].pizzaId,
+            imageUrl: activePizza[0].name.image,
+            name: activePizza[0].name.value,
+            type: activePizza[0].type,
+            size: activePizza[0].size,
+            price: activePizza[0].price
+        };
+        activePizza.length && dispatch(addPizzaToCart(pizzaObj));
+
+        activePizza.length && notify('pizza added to cart', 'success');
+    };
+
+    const notify = (message, type) => {
+        toast[type](`🦄 ${message}`);
+    };
+    
     return (
         <div className="pizza-block">
             <img 
@@ -80,7 +106,7 @@ const PizzaBlock = (/*{ id, imageUrl, name, types, sizes, price }*/{pizzaId, nam
                             key={`type_${index}`}
                             className={classnames({
                                 'active': activeSize === index,
-                                'disabled': !sizes.some(curSize => curSize.sizeId === size.sizeId)
+                                'disabled': !newSizes.some(curSize => curSize.sizeId === size.sizeId)
                             })}
                             onClick={() => onSelectSize(index)}
                             style={{fontSize: '12px'}}
@@ -91,8 +117,8 @@ const PizzaBlock = (/*{ id, imageUrl, name, types, sizes, price }*/{pizzaId, nam
                 </ul>
             </div>
             <div className="pizza-block__bottom">
-                <div className="pizza-block__price">от {price} ₽</div>
-                <button className="button button--outline button--add" /*</div>onClick={onAddPizzaToCart}*/>
+                <div className="pizza-block__price">от {price} р.</div>
+                <button className="button button--outline button--add" onClick={onAddPizzaToCart}>
                     <svg
                         width="12"
                         height="12"
@@ -105,8 +131,7 @@ const PizzaBlock = (/*{ id, imageUrl, name, types, sizes, price }*/{pizzaId, nam
                         />
                     </svg>
                     <span>Добавить</span>
-                    {/* <i>{items[pizzaId] ? items[pizzaId].items.length : 0}</i> */}
-                    <i>0</i>
+                    <i>{itemCount ? itemCount : 0}</i>
                 </button>
             </div>
         </div>

@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Typography } from '@material-ui/core';
-import { Form, Table, FormUpdate } from './../../components/importComponents';
-import { getNewStr, switchRoutePath } from './../../functions/importFunctions';
 import { toast } from "react-toastify";
+import { Form, FormUpdate, Table } from './../../components/importComponents';
+import { getNewStr, switchRoutePath } from './../../functions/importFunctions';
 
 const statusArray = ['Pending', 'InProgress', 'Paused', 'Closed'];
 
-const Cook = ({ path }) => {
+const Order = ({ path }) => {
     const dispatch = useDispatch();
     const { allItems } = useSelector(({ admin }) => ({
         allItems: admin[path]
@@ -18,7 +18,7 @@ const Cook = ({ path }) => {
     const [visibleFormPost, setVisibleFormPost] = useState(true);
     const [putStatusId, setPutStatusId] = useState('');
     const [elemUpdate, setElemUpdate] = useState('');
-    
+
     const getData = async () => {
         const resp = await axios(`/api/${getNewStr(path)}${path === 'pizzas' ? '/all' : ''}`);
         return await resp;
@@ -51,20 +51,46 @@ const Cook = ({ path }) => {
                     dispatch(resFunc());
                 });
 
-                path === 'cook' && notify('The put operation was successful', 'success');
+                notify('The delete operation was successful', 'success');
             })
             .catch((err) => {
                 notify('Error delete', 'error');
             })
     };
 
+    // const putItem = (id, obj) => {
+    //     // axios.put(`/api/${getNewStr(path)}/${id}/${elemUpdate === 'post' ? 'post' : 'status'}`, obj)
+    //     axios.put(`/api/${getNewStr(path)}/${id}/assign`, obj)
+    //         .then(() => {
+    //             getData().then(resp => {
+    //                 const resFunc = switchRoutePath(getNewStr(path), resp.data);
+    //                 dispatch(resFunc());
+    //             });
+
+    //             notify('The put operation was successful', 'success');
+    //         })
+    //         .catch((err) => {
+    //             notify('Error put', 'error');
+    //         })
+    //     console.log(id);
+    // }
+
     const putItem = (id, obj) => {
-        axios.put(`/api/${getNewStr(path)}/${id}/${elemUpdate === 'post' ? 'post' : 'status'}`, obj)
-            .then(() => {
-                getData().then(resp => {
-                    const resFunc = switchRoutePath(getNewStr(path), resp.data);
-                    dispatch(resFunc());
-                });
+        // axios.put(`/api/${getNewStr(path)}/${id}/${elemUpdate === 'post' ? 'post' : 'status'}`, obj)
+        axios.get(`/api/CookSession/${id}`)
+            .then((resp) => {
+                // getData().then(resp => {
+                //     const resFunc = switchRoutePath(getNewStr('cookSession'), resp.data);
+                //     dispatch(resFunc());
+                // });
+                const cookSessionId = resp.data.filter(session => session.dateTimeEnd === null)[0].cookSessionId;
+                // console.log(resp.data.filter(session => session.dateTimeEnd === null)[0]);
+                axios.put(`/api/Order/${putStatusId}/assign`, {cookSessionId})
+                    .then(resp => {
+                        const resFunc = switchRoutePath(getNewStr('CookSession'), resp.data);
+                        dispatch(resFunc());
+                    });
+
 
                 notify('The put operation was successful', 'success');
             })
@@ -72,7 +98,21 @@ const Cook = ({ path }) => {
                 notify('Error put', 'error');
             })
         console.log(id);
-    }
+    };
+
+    const putItemStatus = (id, status) => {
+        console.log(id, status);
+        axios.put(`/api/Order/${id}/status`, {status})
+            .then(resp => {
+                const resFunc = switchRoutePath(getNewStr('CookSession'), resp.data);
+                dispatch(resFunc());
+                
+                notify('The put operation was successful', 'success');
+            })
+            .catch((err) => {
+                notify('Error put', 'error');
+            })
+    };
 
     return (
         <Box p={4}>
@@ -83,14 +123,20 @@ const Cook = ({ path }) => {
                 >
                     {getNewStr(path)}
             </Typography>
+            {/* <Form 
+                postItem={postItem} 
+                path={path}
+            /> */}
+            {/* <FormUpdate 
+                putItem={putItem} 
+                putStatusId={putStatusId} 
+                setVisibleFormPost={setVisibleFormPost}
+                statusArray={statusArray}
+                elemUpdate={elemUpdate}
+            /> */}
             {
                 visibleFormPost ?
-                    <Form 
-                        postItem={postItem} 
-                        path={path}
-                        statusArray={statusArray}
-                        visibleFormPost={visibleFormPost}
-                    /> :
+                    '' :
                     <FormUpdate 
                         putItem={putItem} 
                         putStatusId={putStatusId} 
@@ -109,9 +155,11 @@ const Cook = ({ path }) => {
                 setVisibleFormPost={setVisibleFormPost}
                 setPutStatusId={setPutStatusId}
                 setElemUpdate={setElemUpdate}
+                path={path}
+                putItemStatus={putItemStatus}
             />
         </Box>
     )
 }
 
-export default Cook;
+export default Order;

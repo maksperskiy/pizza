@@ -46,7 +46,7 @@ body {
     width: $container-width;
     margin: 0 auto;
 
-    &--cart, &--home, &--page-not-found {
+    &--cart, &--home, &--page-not-found, &--order {
         animation: anim-container .5s .2s ease forwards;
         opacity: 0;
     

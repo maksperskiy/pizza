@@ -1,17 +1,30 @@
 import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Formik, Form as ContentForm } from 'formik';
-import { Box, Button } from '@material-ui/core';
+import { Box, Button, Slider } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import { switchAdminState, switchKeysWithoutId } from './../../functions/importFunctions';
 import { FormSelect, FormInput } from './../importComponents';
 
+const useStyles = makeStyles((theme) => ({
+    button: {
+        backgroundColor: `#8aabff !important`,
+        '&:hover': {
+            backgroundColor: '#5190cf !important',
+        }
+    }
+}));
+
 const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
-    const { allCategories, allNames, allSizes, allTypes, allPizzas, allCookSession, allCook, allPost } = useSelector(({ admin }) => ({
+    const classes = useStyles();
+    const { allCategories, allNames, allSizes, allTypes, allPizzas, allCustomers, allCookSession, allCook, allPost } = useSelector(({ admin }) => ({
         allCategories: admin.categories,
         allNames: admin.names,
         allSizes: admin.sizes,
         allTypes: admin.types,
         allPizzas: admin.pizzas,
+
+        allCustomers: admin.customers,
 
         allCookSession: admin.cooksession,
         allCook: admin.cook,
@@ -23,6 +36,10 @@ const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
     const keysObj = keysWithoutId && keysWithoutId.reduce(function(acc, cur) {
         if(cur === 'visible') {
             acc[cur] = true;
+            return acc;
+        }
+        if(path === 'promo' && cur === 'value') {
+            acc[cur] = 10;
             return acc;
         }
         acc[cur] = '';
@@ -39,7 +56,7 @@ const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
         setInputPrice(price);
         setInputCategoryName(category);
     };
-    console.log(inputCategoryName);
+
     return (
         <div className="App">
             <Formik
@@ -61,7 +78,7 @@ const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
                     const errors = {};
                     
                     keysWithoutId.map(key => {
-                        if(key === 'visible' || key === 'cookStatus') {
+                        if(key === 'visible' || key === 'cookStatus' || (path === 'promo' && key === 'value')) {
                             return;
                         }
                         if((inputDisabled && key === 'price') || (inputDisabled && key === 'categoryId')) {
@@ -71,7 +88,7 @@ const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
                             errors[key] = 'Required';
                         }
                     })
-                    
+                    console.log(values);
                     const findArray = allPizzas.filter(item => item.name.nameId === values.nameId);
                     setInputDisabled(false);
                     if(path === 'pizzas' && findArray.length !== 0) {
@@ -104,10 +121,23 @@ const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
                                             <FormSelect
                                                 keyValue={key}
                                                 props={props}
-                                                stateItems={switchAdminState(key, allCategories, allNames, allSizes, allTypes, statusArray, /*allCookSession,*/ allCook, allPost)}
+                                                stateItems={switchAdminState(key, allCategories, allNames, allSizes, allTypes, allCustomers, statusArray, allCook, allPost)}
                                                 visibleFormPost={visibleFormPost}
                                                 inputDisabled={inputDisabled}
                                                 inputCategoryName={inputCategoryName}
+                                            /> :
+                                        path === 'promo' && key === 'value' ?
+                                            <Slider
+                                                size="small"
+                                                defaultValue={10}
+                                                min={10}
+                                                max={100}
+                                                step={10}
+                                                aria-label="Small"
+                                                valueLabelDisplay="auto"
+                                                sx={{width: '300px', marginRight: '20px'}}
+                                                name={key}
+                                                onChange={props.handleChange}
                                             /> :
                                             <FormInput 
                                                 keyValue={key} 
@@ -121,6 +151,7 @@ const Form = ({ postItem, path, statusArray, visibleFormPost }) => {
                                     size="medium"
                                     type="submit" 
                                     onClick={props.handleSubmit}
+                                    className={classes.button}
                                 >
                                     Добавить
                                 </Button>

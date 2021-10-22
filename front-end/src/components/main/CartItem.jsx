@@ -22,15 +22,15 @@ const CartItem = ({ id, imageUrl, name, type, size, price, items }) => {
     return (
         <div className="cart__item">
             <div className="cart__item-img">
-                <img
+                <img 
                     className="pizza-block__image"
-                    src={imageUrl}
-                    alt="Pizza"
+                    src={`data:image/png;base64,${imageUrl}`}
+                    alt="Pizza" 
                 />
             </div>
             <div className="cart__item-info">
                 <h3>{name}</h3>
-                <p>{type} тесто, {size} см.</p>
+                <p>{type && type.value} тесто, {size && size.value} см.</p>
             </div>
             <div className="cart__item-count">
                 <button className="button button--outline button--circle cart__item-count-minus" onClick={() => onMinusCountPizza(id)}>
@@ -70,7 +70,7 @@ const CartItem = ({ id, imageUrl, name, type, size, price, items }) => {
                 </button>
             </div>
             <div className="cart__item-price">
-                <b>{items[id].totalPrice} ₽</b>
+                <b>{items[id].totalPrice} р.</b>
             </div>
             <div className="cart__item-remove" onClick={() => onRemovePizzaFromCart(id)}>
                 <button className="button button--outline button--circle">

@@ -10,8 +10,9 @@ const statusArray = ['Pending', 'InProgress', 'Paused', 'Closed'];
 
 const CookSession = ({ path }) => {
     const dispatch = useDispatch();
-    const { allItems } = useSelector(({ admin }) => ({
-        allItems: admin[path]
+    const { allItems, allCook } = useSelector(({ admin }) => ({
+        allItems: admin[path],
+        allCook: admin.cook
     }));
     const itemsKeys = allItems.length && Object.keys(allItems[0]);
 
@@ -20,7 +21,7 @@ const CookSession = ({ path }) => {
     const [elemUpdate, setElemUpdate] = useState('');
     
     const getData = async (cookId) => {
-        const resp = await axios(`/api/${getNewStr(path)}/${cookId}`);
+        const resp = await axios(`/api/${getNewStr(path)}/${ cookId ? cookId : allCook[0].cookId }`);
         return await resp;
     };
 
@@ -39,7 +40,8 @@ const CookSession = ({ path }) => {
     };
     
     const postItem = (cookId) => {
-        axios.post(`/api/CookSession`, {cookId}, {headers: {'Content-type': 'application/json'}})
+        console.log(cookId);
+        axios.post(`/api/CookSession`, { cookId: cookId ? cookId : allCook[0].cookId }, {headers: {'Content-type': 'application/json'}})
             .then((resp) => {
                 getData(cookId).then(resp => {
                     const resFunc = switchRoutePath(getNewStr(path), resp.data, cookId);
@@ -54,7 +56,7 @@ const CookSession = ({ path }) => {
     };
 
     const putDateTimeItem = (cookId) => {
-        axios.put(`/api/${getNewStr(path)}/${cookId}/end`)
+        axios.put(`/api/${getNewStr(path)}/${ cookId ? cookId : allCook[0].cookId }/end`)
             .then(({ data }) => {
                 const resFunc = switchRoutePath(getNewStr(path), data, cookId);
                 dispatch(resFunc());

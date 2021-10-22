@@ -3,7 +3,7 @@ import { FormControl, NativeSelect } from '@material-ui/core';
 
 const FormSelect = ({ keyValue, props, stateItems, inputDisabled, inputCategoryName }) => {
     return (
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+        <FormControl variant="standard" sx={{minWidth: 120, marginRight: '20px'}}>
             <NativeSelect
                 defaultValue={'Pending'}
                 inputProps={{

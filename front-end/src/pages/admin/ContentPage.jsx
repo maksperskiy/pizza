@@ -2,9 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Typography } from '@material-ui/core';
+import { toast } from "react-toastify";
 import { Form, Table } from './../../components/importComponents';
 import { getNewStr, switchRoutePath } from './../../functions/importFunctions';
-import { toast } from "react-toastify";
 
 const ContentPage = ({ path }) => {
     const dispatch = useDispatch();
@@ -52,6 +52,22 @@ const ContentPage = ({ path }) => {
             })
     };
 
+    const hideItem = (id) => {
+        console.log(id);
+        axios.get(`/api/${getNewStr(path)}/${id}/hide`)
+            .then(() => {
+                getData().then(resp => {
+                    const resFunc = switchRoutePath(getNewStr('Pizzas'), resp.data);
+                    dispatch(resFunc());
+                });
+
+                notify('The delete operation was successful', 'success');
+            })
+            .catch((err) => {
+                notify('Error delete', 'error');
+            })
+    };
+
     return (
         <Box p={4}>
             <Typography
@@ -70,6 +86,7 @@ const ContentPage = ({ path }) => {
                 allItems={allItems} 
                 getData={getData} 
                 deleteItem={deleteItem} 
+                hideItem={hideItem}
             />
         </Box>
     )
