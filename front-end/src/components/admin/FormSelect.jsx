@@ -38,7 +38,12 @@ const FormSelect = ({ keyValue, props, stateItems, inputDisabled, inputCategoryN
                                 key={item[keyValue]}
                                 value={item[keyValue]}
                             >
-                                {item.hasOwnProperty('value') ? item['value'] : item['name'] }
+                                {/* {item.hasOwnProperty('value') ? item['value'] : item['name'] } */}
+                                {
+                                    keyValue === 'sizeId' ? 
+                                        item['name'] :
+                                    item.hasOwnProperty('value') ? item['value'] : item['name']
+                                }
                             </option> :
                             <option
                                 key={item}

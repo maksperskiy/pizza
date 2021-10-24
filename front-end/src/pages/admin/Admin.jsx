@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Typography, Box } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/styles';
 import { fetchData } from './../../redux/actions/importActions';
-import { NavPanel, Sidebar } from './../../components/importComponents';
+import { NavPanel, Sidebar, ConfirmDialog } from './../../components/importComponents';
 import { ContentPage, Order, Customers, Cook, CookSession } from './../../pages/importPages';
 
 const useStyles = makeStyles({
@@ -79,6 +79,7 @@ const Admin = () => {
                 </Route>
                 <Route path="/*" exact component={() => <Typography variant="h2" component="h1" className={classes.intro}>Добро пожаловать<br/> в админку сайта Pizza Shop</Typography>} />
             </Switch>
+            <ConfirmDialog />
         </Box>
     );
 };

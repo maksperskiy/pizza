@@ -16,4 +16,5 @@ export { default as FormSelect } from './admin/FormSelect';
 export { default as FormInput } from './admin/FormInput';
 export { default as FormUpdate } from './admin/FormUpdate';
 export { default as FormGet } from './admin/FormGet';
+export { default as ConfirmDialog } from './admin/ConfirmDialog';
 

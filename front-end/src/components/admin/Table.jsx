@@ -1,8 +1,8 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Table as TableMaterial, TableBody, TableCell, tableCellClasses, TableContainer, TableHead, TableRow, Paper, styled, IconButton } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon, Block as BlockIcon, CheckCircleOutline as CheckCircleOutlineIcon, PauseCircleOutline as PauseCircleOutlineIcon, VisibilityOff as VisibilityOffIcon } from '@material-ui/icons';
-
+import { setIsOpen, setIsAgree } from './../../redux/actions/importActions';
 import { cutStr, cleanTheDate } from './../../functions/importFunctions';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -41,6 +41,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStatusId, setElemUpdate, putDateTimeItem, path, putItemStatus, hideItem }) => {
+    const dispatch = useDispatch();
     allItems = allItems.length && allItems[0].hasOwnProperty('dateTimeStart') ?
         [...allItems.sort((prev, next) => {
             if(next.dateTimeStart > prev.dateTimeStart) {
@@ -48,10 +49,23 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
             }
         })] : [...allItems];
     
-    const { allCook, allPizzas } = useSelector(({ admin }) => ({
+    const { allCook, allPizzas, isAgree } = useSelector(({ admin, confirmDialog }) => ({
         allCook: admin.cook,
-        allPizzas: admin.pizzas
+        allPizzas: admin.pizzas,
+        isAgree: confirmDialog.isAgree
     }));
+
+    const [deleteId, setDeleteId] = useState('');
+    const [operation, setOperation] = useState('');
+
+    useEffect(() => {
+        dispatch(setIsAgree(false));
+        if(path !== 'cooksession' || path !== 'customers') {
+            isAgree && operation === 'delete' && deleteItem(deleteId);
+            isAgree && operation === 'hide' && hideItem(deleteId);
+        }
+    }, [isAgree]);
+
     console.log(allPizzas);
     return (
         <>{
@@ -221,7 +235,13 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
                                                                 size="small"
                                                                 edge="start"
                                                                 aria-label="hide"
-                                                                onClick={() => hideItem(item[itemsKeys[0]])}
+                                                                onClick={() => {
+                                                                    dispatch(setIsAgree(false));
+                                                                    dispatch(setIsOpen(true));
+                                                                    setDeleteId(item[itemsKeys[0]]);
+                                                                    setOperation('hide');
+                                                                    // hideItem(item[itemsKeys[0]])
+                                                                }}
                                                             >
                                                                 {
                                                                     <VisibilityOffIcon />
@@ -232,7 +252,12 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
                                                                 size="small"
                                                                 edge="start"
                                                                 aria-label="delete"
-                                                                onClick={() => deleteItem(item[itemsKeys[0]])}
+                                                                onClick={() => {
+                                                                    dispatch(setIsAgree(false));
+                                                                    dispatch(setIsOpen(true));
+                                                                    setDeleteId(item[itemsKeys[0]]);
+                                                                    setOperation('delete');
+                                                                }}
                                                             >
                                                                 {
                                                                     <DeleteIcon />
@@ -243,24 +268,17 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
                                                         size="small"
                                                         edge="start"
                                                         aria-label="delete"
-                                                        onClick={() => deleteItem(item[itemsKeys[0]])}
+                                                        onClick={() => {
+                                                            dispatch(setIsAgree(false));
+                                                            dispatch(setIsOpen(true));
+                                                            setDeleteId(item[itemsKeys[0]]);
+                                                            setOperation('delete');
+                                                        }}
                                                     >
                                                         {
                                                             <DeleteIcon />
                                                         } 
                                                     </IconButton>
-                                                    // <IconButton
-                                                    //     size="small"
-                                                    //     edge="start"
-                                                    //     aria-label="delete"
-                                                    //     onClick={() => deleteItem(item[itemsKeys[0]])}
-                                                    // >
-                                                    //     {
-                                                    //         itemsKeys.includes('cookStatus') ? 
-                                                    //             <BlockIcon /> : 
-                                                    //             <DeleteIcon />
-                                                    //     } 
-                                                    // </IconButton>
                                         }
                                     </StyledTableRow>
                                 )
@@ -274,64 +292,3 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
 }
 
 export default Table;
-
-
-
-{/* 
-{
-                                            itemsKeys.includes('cookSessionId') || itemsKeys.includes('customerId') ? 
-                                                '' :
-                                            path === 'order' && itemsKeys.includes('orderId') ?
-                                                item['status'] === 'Paused' ?
-                                                    <IconButton
-                                                        size="small"
-                                                        edge="start"
-                                                        aria-label="closed"
-                                                        onClick={() => putItemStatus(item[itemsKeys[0]], 'Closed')}
-                                                        // onClick={() => deleteItem(item[itemsKeys[0]])}
-                                                    >
-                                                        <CheckCircleOutlineIcon />
-                                                    </IconButton> :
-                                                item['status'] === 'Closed' ?
-                                                    <IconButton
-                                                        size="small"
-                                                        edge="start"
-                                                        aria-label="paused"
-                                                        onClick={() => putItemStatus(item[itemsKeys[0]], 'Paused')}
-                                                    >
-                                                        <PauseCircleOutlineIcon />
-                                                    </IconButton> :
-                                                    <div style={{display: 'flex'}}>
-                                                        <IconButton
-                                                            size="small"
-                                                            edge="start"
-                                                            aria-label="closed"
-                                                            onClick={() => putItemStatus(item[itemsKeys[0]], 'Closed')}
-                                                            // onClick={() => deleteItem(item[itemsKeys[0]])}
-                                                        >
-                                                            <CheckCircleOutlineIcon />
-                                                        </IconButton>
-                                                        <IconButton
-                                                            size="small"
-                                                            edge="start"
-                                                            aria-label="paused"
-                                                            onClick={() => putItemStatus(item[itemsKeys[0]], 'Paused')}
-                                                        >
-                                                            <PauseCircleOutlineIcon />
-                                                        </IconButton>
-                                                    </div> :
-                                                <IconButton
-                                                    size="small"
-                                                    edge="start"
-                                                    aria-label="delete"
-                                                    onClick={() => deleteItem(item[itemsKeys[0]])}
-                                                >
-                                                    {
-                                                        itemsKeys.includes('cookStatus') ? 
-                                                            <BlockIcon /> : 
-                                                        itemsKeys.includes('categoryId') && path === 'categories' ?
-                                                            <div>categories</div> :
-                                                            <DeleteIcon />
-                                                    } 
-                                                </IconButton>
-                                        } */}

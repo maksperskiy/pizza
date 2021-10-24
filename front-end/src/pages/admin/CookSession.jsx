@@ -98,6 +98,7 @@ const CookSession = ({ path }) => {
                 setPutStatusId={setPutStatusId}
                 setElemUpdate={setElemUpdate}
                 putDateTimeItem={putDateTimeItem}
+                path={path}
             />
         </Box>
     )

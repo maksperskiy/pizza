@@ -1,9 +1,10 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Input, Button } from '@material-ui/core';
 import { Formik } from 'formik';
 import { makeStyles } from '@material-ui/styles';
-import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { clearCart } from './../../redux/actions/importActions';
 
 const useStyles = makeStyles((theme) => ({
     errorTitle: {
@@ -39,8 +40,8 @@ const useStyles = makeStyles((theme) => ({
 
 const BasicFormSchema = Yup.object().shape({
     name: Yup.string()
-        .min(3, "От 6 и более символов")
-        .max(12, "Не более 12 символов")
+        .min(3, "От 3 и более символов")
+        .max(40, "Не более 40 символов")
         .required('Обязательное'),
     mail: Yup.string()
         .required('Обязательное')
@@ -50,7 +51,7 @@ const BasicFormSchema = Yup.object().shape({
         ),
     address: Yup.string()
         .min(10, "От 10 и более символов")
-        .max(30, "Не более 30 символов")
+        .max(50, "Не более 50 символов")
         .required('Обязательное'),
     phone: Yup.string()
         .required('Обязательное')
@@ -66,6 +67,7 @@ const arrayFields = ['name', 'mail', 'address', 'phone', 'promo'];
 
 const OrderForm = ({ items, totalPrice, totalPizzas, orderPost }) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
     return (
         <>
@@ -89,6 +91,7 @@ const OrderForm = ({ items, totalPrice, totalPizzas, orderPost }) => {
                         values = {...newValues};
                     }   
                     orderPost(values);
+                    dispatch(clearCart());
                     resetForm({values: ''});
                 }}
             >
