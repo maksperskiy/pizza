@@ -31,7 +31,7 @@ const PizzaBlock = ({ pizzaId, name, types, sizes, price }) => {
         });
     });
 
-    const newSizes = allPizzas.filter(pizza => pizza.name.value === name.value)
+    const newSizes = allPizzas.filter(pizza => pizza.name.value === name.value && pizza.visible === true)
         .filter(pizza => pizza.type.value === allTypes[activeType].value)
         .map(pizza => pizza.size)
         .sort((prev, next) => {

@@ -87,6 +87,7 @@ const ContentPage = ({ path }) => {
                 allItems={allItems} 
                 getData={getData} 
                 // deleteItem={deleteItem} 
+                path={path}
             />
         </Box>
     )

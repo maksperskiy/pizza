@@ -5,14 +5,13 @@
 
 body {
     background-color: $background;
-    // padding: 50px 0;
 }
 
 .wrapper {
     width: calc(100vw - 100px);
     height: 100%;
     background-color: #fff;
-    margin: 50px auto;
+    margin: 50px auto 25px;
     border-radius: 10px;
     max-width: 1400px;
 }
@@ -358,6 +357,18 @@ body {
         font-weight: 600;
         font-size: 18px;
     }
+}
+
+.button--admin {
+    background: none;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #444;
+    padding: 5px 10px;
+    margin: 0 50px 50px;
+    background-color: #e28561;
 }
 
 @import 'media';

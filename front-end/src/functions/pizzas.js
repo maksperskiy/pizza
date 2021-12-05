@@ -26,14 +26,18 @@ const concatArrays = (pizzas, oldPropsArray) => {
         }, []);
 
         newPizzas = deletePizzas.map(item => {
+            let newObj;
             for (let i = 0; i < pizzas.length; i++) {
-                if(item.name.value === pizzas[i].name.value) {
+                if(item.name.value === pizzas[i].name.value && item.size) {
                     const oldSizes = !item[newProp] ? [] : item[newProp];
                     item[newProp] = [...oldSizes, pizzas[i][elArr]];
-                    delete item[elArr];
+                    const {size, type, ...obj} = item;
+                    // delete item[elArr];
+                    newObj = {...obj};
                 }
             }
-            return {...item};
+            return {...newObj};
+            // return {...item};
         });
     });
 

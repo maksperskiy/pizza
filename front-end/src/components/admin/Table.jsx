@@ -27,16 +27,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         position: 'relative',
         color: '#444'
     },
-    'td button': {
-        position: 'absolute', 
-        marginLeft: '10px',
-        top: '50%', 
-        transform: 'translateY(-50%)'
-    },
-    // 'button': {
+    // 'td button': {
     //     position: 'absolute', 
-    //     top: '50%', 
-    //     transform: 'translateY(-50%)'
+    //     top: '50%',
+    //     // left: '50%',
+    //     transform: 'translate3d(-50%, -50%, 0)'
     // }
 }));
 
@@ -70,17 +65,17 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
     return (
         <>{
             allItems.length ? 
-                <TableContainer component={Paper} sx={{overflow: 'hidden'}}>
+                <TableContainer component={Paper}>
                     <TableMaterial sx={{ minWidth: 720 }} aria-label="customized table">
                         <TableHead>
                             <TableRow>
                                 {
-                                    itemsKeys && itemsKeys.map(key => 
+                                    itemsKeys.length && itemsKeys.map(key => 
                                         <StyledTableCell>{key}</StyledTableCell>
                                     )
                                 }
                                 {
-                                    itemsKeys.includes('cookSessionId') || itemsKeys.includes('customerId') ? 
+                                    itemsKeys.length && itemsKeys.includes('cookSessionId') || path === 'customers' || path === 'myitems' ? 
                                         '' :
                                         <StyledTableCell sx={{width: '34px'}}></StyledTableCell>
                                 }
@@ -105,7 +100,7 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
                                                 ''
                                         }}
                                     >
-                                        {itemsKeys.map((key, index) => 
+                                        {itemsKeys.length && itemsKeys.map((key, index) => 
                                             <>
                                                 {Array.isArray(item[key]) ?
                                                     <StyledTableCell sx={{display: 'flex'}}>
@@ -122,7 +117,12 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
                                                 typeof item[key] === 'object' ?
                                                     <StyledTableCell>
                                                         {
-                                                            key === 'cook' || key === 'customer' ?
+                                                            key === 'customer' ?
+                                                                <>
+                                                                    <div>{cutStr(String(item[key]['name']), 'name')}</div>
+                                                                    <div>{cutStr(String(item[key]['mail']), 'mail')}</div>
+                                                                </> :
+                                                            key === 'cook' ?
                                                                 cutStr(String(item[key]['name']), 'name') :
                                                             key === 'dateTimeEnd' || key === 'dateTimeStart' ?
                                                                 cutStr(String(item[key]), key) :
@@ -136,7 +136,7 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
                                                                 item[key] === null ?
                                                                     cutStr(String(item[key]), key) :
                                                                     // cutStr(String(item[key]['cookId']), key) :
-                                                                    allCook && cutStr(String(allCook && allCook[allCook.findIndex(cook => cook.cookId === item[key]['cookId'])]['name']), key) :
+                                                                    allCook.length && cutStr(String(allCook && allCook[allCook.findIndex(cook => cook.cookId === item[key]['cookId'])]['name']), key) :
                                                                 cutStr(String(item[key]['value']), key)
                                                         }
                                                         {key === 'post' || (key === 'cookSession' && item['cookSession'] === null && path === 'order') ? 
@@ -176,29 +176,34 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
                                             </>
                                         )}
                                         {
-                                            itemsKeys.includes('cookSessionId') || itemsKeys.includes('customerId') ? 
+                                            (itemsKeys.length && itemsKeys.includes('cookSessionId')) || path === 'customers' || path === 'myitems' ? 
                                                 '' :
                                             path === 'order' && itemsKeys.includes('orderId') ?
                                                 item['status'] === 'Paused' ?
-                                                    <IconButton
-                                                        size="small"
-                                                        edge="start"
-                                                        aria-label="closed"
-                                                        onClick={() => putItemStatus(item[itemsKeys[0]], 'Closed')}
-                                                        // onClick={() => deleteItem(item[itemsKeys[0]])}
-                                                    >
-                                                        <CheckCircleOutlineIcon />
-                                                    </IconButton> :
+                                                    <StyledTableCell>
+                                                        <IconButton
+                                                            size="small"
+                                                            edge="start"
+                                                            aria-label="closed"
+                                                            onClick={() => putItemStatus(item[itemsKeys[0]], 'Closed')}
+                                                            // onClick={() => deleteItem(item[itemsKeys[0]])}
+                                                        >
+                                                            <CheckCircleOutlineIcon />
+                                                        </IconButton>
+                                                    </StyledTableCell> :
                                                 item['status'] === 'Closed' ?
-                                                    <IconButton
-                                                        size="small"
-                                                        edge="start"
-                                                        aria-label="paused"
-                                                        onClick={() => putItemStatus(item[itemsKeys[0]], 'Paused')}
-                                                    >
-                                                        <PauseCircleOutlineIcon />
-                                                    </IconButton> :
-                                                    <div style={{display: 'flex'}}>
+                                                    <StyledTableCell>
+                                                        <IconButton
+                                                            size="small"
+                                                            edge="start"
+                                                            aria-label="paused"
+                                                            onClick={() => putItemStatus(item[itemsKeys[0]], 'Paused')}
+                                                        >
+                                                            <PauseCircleOutlineIcon />
+                                                        </IconButton>
+                                                    </StyledTableCell>
+                                                    :
+                                                    <StyledTableCell>
                                                         <IconButton
                                                             size="small"
                                                             edge="start"
@@ -216,8 +221,8 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
                                                         >
                                                             <PauseCircleOutlineIcon />
                                                         </IconButton>
-                                                    </div> :
-                                                itemsKeys.includes('cookStatus') ?
+                                                    </StyledTableCell> :
+                                                itemsKeys.length && itemsKeys.includes('cookStatus') ?
                                                     <IconButton
                                                         size="small"
                                                         edge="start"
@@ -228,7 +233,7 @@ const Table = ({ itemsKeys, allItems, deleteItem, setVisibleFormPost, setPutStat
                                                             <BlockIcon />
                                                         } 
                                                     </IconButton> :
-                                                itemsKeys.includes('categoryId') || itemsKeys.includes('nameId') || itemsKeys.includes('sizeId') || itemsKeys.includes('typeId') ?
+                                                itemsKeys.length && (itemsKeys.includes('categoryId') || itemsKeys.includes('nameId') || itemsKeys.includes('sizeId') || itemsKeys.includes('typeId')) ?
                                                     <div style={{display: 'flex'}}>
                                                         {/* {allPizzas.filter(pizza => pizza.categoryId === item.categoryId).length === 0 ? */}
                                                             <IconButton

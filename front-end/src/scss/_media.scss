@@ -35,6 +35,10 @@
         width: calc(100vw - 50px);
         margin: 25px auto;
     }
+
+    .button--admin {
+        margin: 0 25px 25px;
+    }
     
     .categories {
         ul {
@@ -61,6 +65,10 @@
     .wrapper {
         width: calc(100vw - 20px);
         margin: 10px auto;
+    }
+
+    .button--admin {
+        margin: 0 10px 10px;
     }
 
     .categories {

@@ -14,7 +14,8 @@ const Order = ({ path }) => {
         allItems: admin[path]
     }));
     const itemsKeys = allItems.length && Object.keys(allItems[0]);
-
+    console.log('itemsKeys: ');
+    console.log(itemsKeys);
     const [visibleFormPost, setVisibleFormPost] = useState(true);
     const [putStatusId, setPutStatusId] = useState('');
     const [elemUpdate, setElemUpdate] = useState('');

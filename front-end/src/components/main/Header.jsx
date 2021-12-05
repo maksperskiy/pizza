@@ -17,6 +17,10 @@ const Header = ({ totalPrice, totalPizzas }) => {
                     </div>
                 </Link>
 
+                <Link to={`${url}/myitems`}>
+                    <div>Посмотреть свои заказы</div>
+                </Link>
+
                 <Link to={`${url}/cart`} className="header__cart">
                     <Button cart>
                         <span>{totalPrice} ₽</span>
